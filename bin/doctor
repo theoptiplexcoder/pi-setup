@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export PI_CODING_AGENT_DIR="$REPO_ROOT/.pi/agent"
+
+echo "Running Pi Harness Doctor..."
+
+# Check Node
+if command -v node >/dev/null 2>&1; then
+  echo "✓ Node.js ($(node -v))"
+else
+  echo "✗ Node.js not found"
+fi
+
+# Check Pi
+if command -v pi >/dev/null 2>&1; then
+  echo "✓ Pi ($(pi --version))"
+else
+  echo "✗ Pi not found"
+fi
+
+# Check Repo config
+if [ -f "$PI_CODING_AGENT_DIR/settings.json" ]; then
+  echo "✓ Agent configuration found"
+else
+  echo "✗ Agent configuration missing"
+fi
+
+# Check Dependencies
+if [ -d "$PI_CODING_AGENT_DIR/npm/node_modules" ]; then
+  echo "✓ Dependencies installed"
+else
+  echo "✗ Dependencies missing (run ./bin/setup)"
+fi
+
+# Auth check
+if [ -f "$PI_CODING_AGENT_DIR/auth.json" ]; then
+  echo "✓ Authentication (auth.json present)"
+else
+  echo "⚠ Authentication missing (will prompt on run)"
+fi

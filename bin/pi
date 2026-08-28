@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -e
+
+# Find the repository root
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+# Define the repository-local Pi configuration directory
+export PI_CODING_AGENT_DIR="$REPO_ROOT/.pi/agent"
+
+# Run the globally installed pi, passing any arguments
+exec pi "$@"

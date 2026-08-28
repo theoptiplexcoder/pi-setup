@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -e
+
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export PI_CODING_AGENT_DIR="$REPO_ROOT/.pi/agent"
+
+echo "Updating Pi Harness..."
+
+# Update pi globally
+echo "Updating pi..."
+npm update -g @earendil-works/pi-coding-agent || true
+
+# Update extensions
+echo "Updating extensions via pi update..."
+"$REPO_ROOT/bin/pi" update
+
+echo "Update complete!"

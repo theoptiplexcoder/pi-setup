@@ -1,0 +1,34 @@
+#!/usr/bin/env bash
+set -e
+
+echo "Setting up Pi Harness..."
+
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+export PI_CODING_AGENT_DIR="$REPO_ROOT/.pi/agent"
+
+# Check Node version
+if ! command -v node >/dev/null 2>&1; then
+  echo "Error: Node.js is not installed."
+  exit 1
+fi
+echo "✓ Node.js installed: $(node -v)"
+
+# Check Pi
+if ! command -v pi >/dev/null 2>&1; then
+  echo "Installing pi globally..."
+  npm install -g @earendil-works/pi-coding-agent
+fi
+echo "✓ Pi installed: $(pi --version)"
+
+# Create required directories
+mkdir -p "$REPO_ROOT/skills" "$REPO_ROOT/extensions" "$REPO_ROOT/agents" "$REPO_ROOT/prompts"
+mkdir -p "$PI_CODING_AGENT_DIR/npm"
+
+# Install extensions dependencies
+echo "Installing extensions..."
+if [ -f "$PI_CODING_AGENT_DIR/npm/package.json" ]; then
+    cd "$PI_CODING_AGENT_DIR/npm"
+    npm install
+fi
+
+echo "Setup complete! Run with: ./bin/pi"

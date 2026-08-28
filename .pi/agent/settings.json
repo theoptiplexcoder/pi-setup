@@ -1,0 +1,33 @@
+{
+  "lastChangelogVersion": "0.84.3",
+  "theme": "dark",
+  "packages": [
+    "npm:pi-antigravity",
+    "npm:opencode-pi",
+    "npm:pi-web-access",
+    "npm:@davecodes/pi-dcp",
+    "npm:pi-subagents"
+  ],
+  "defaultProvider": "antigravity",
+  "defaultModel": "gemini-3.1-pro",
+  "defaultThinkingLevel": "low",
+  "subagents": {
+    "defaultThinking": "low",
+    "maxThinking": "low",
+    "agentOverrides": {
+      "oracle": {
+        "thinking": "low"
+      },
+      "researcher": {
+        "thinking": "low"
+      },
+      "reviewer": {
+        "thinking": "low"
+      },
+      "worker": {
+        "thinking": "low"
+      }
+    }
+  },
+  "hideThinkingBlock": true
+}

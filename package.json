@@ -1,0 +1,10 @@
+{
+  "name": "my-pi-harness",
+  "version": "1.0.0",
+  "description": "Portable Git-managed Pi harness",
+  "scripts": {
+    "setup": "./bin/setup",
+    "doctor": "./bin/doctor",
+    "update": "./bin/update"
+  }
+}

@@ -1,0 +1,19 @@
+# Node dependencies
+node_modules/
+.pi/agent/npm/node_modules/
+
+# Runtime state
+.pi/agent/sessions/
+.pi/agent/run-history*
+.pi/agent/missions/
+.pi/agent/*artifacts*/
+.pi/agent/bin/
+
+# Secrets
+.pi/agent/auth.json
+.pi/agent/trust.json
+.env
+.env.*
+
+# Local overrides
+AGENTS.local.md
