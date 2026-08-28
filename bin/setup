@@ -24,11 +24,8 @@ echo "✓ Pi installed: $(pi --version)"
 mkdir -p "$REPO_ROOT/skills" "$REPO_ROOT/extensions" "$REPO_ROOT/agents" "$REPO_ROOT/prompts"
 mkdir -p "$PI_CODING_AGENT_DIR/npm"
 
-# Install extensions dependencies
+# Install extensions via pi command
 echo "Installing extensions..."
-if [ -f "$PI_CODING_AGENT_DIR/npm/package.json" ]; then
-    cd "$PI_CODING_AGENT_DIR/npm"
-    npm install
-fi
+"$REPO_ROOT/bin/pi" update --extensions
 
 echo "Setup complete! Run with: ./bin/pi"
