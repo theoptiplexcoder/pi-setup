@@ -26,6 +26,15 @@ mkdir -p "$PI_CODING_AGENT_DIR/npm"
 
 # Install extensions via pi command
 echo "Installing extensions..."
-"$REPO_ROOT/bin/pi" update --extensions
+"$REPO_ROOT/bin/pi" extensions install
+
+# Install dependencies for local extensions
+echo "Installing local extension dependencies..."
+for ext_dir in "$REPO_ROOT/extensions"/*/; do
+  if [ -f "${ext_dir}package.json" ]; then
+    echo "Installing dependencies for $(basename "$ext_dir")..."
+    (cd "$ext_dir" && npm install)
+  fi
+done
 
 echo "Setup complete! Run with: ./bin/pi"

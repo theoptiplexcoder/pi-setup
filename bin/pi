@@ -7,5 +7,11 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 # Define the repository-local Pi configuration directory
 export PI_CODING_AGENT_DIR="$REPO_ROOT/.pi/agent"
 
+# Intercept "extensions install" alias
+if [ "$1" = "extensions" ] && [ "$2" = "install" ]; then
+  shift 2
+  exec pi update --extensions "$@"
+fi
+
 # Run the globally installed pi, passing any arguments
 exec pi "$@"

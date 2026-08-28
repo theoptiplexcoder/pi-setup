@@ -11,7 +11,7 @@ echo "Updating pi..."
 npm update -g @earendil-works/pi-coding-agent || true
 
 # Update extensions
-echo "Updating extensions via pi update..."
-"$REPO_ROOT/bin/pi" update --extensions
+echo "Updating extensions via pi extensions install..."
+"$REPO_ROOT/bin/pi" extensions install
 
 echo "Update complete!"
