@@ -1,0 +1,1 @@
+{"timestamp":"2026-08-29T14:13:09.691Z","tool":"bash","hook":"after","sessionId":"ses_fb2237ba1ffe3hfxQ322vGfkRy","callId":"call_779261a74d754636b08c1758","detections":[{"patternId":"regex","category":"pii-email","confidence":"high"},{"patternId":"regex","category":"pii-email","confidence":"high"}],"blocked":false,"redactedCount":2}

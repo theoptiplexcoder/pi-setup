@@ -24,6 +24,10 @@ echo "✓ Pi installed: $(pi --version)"
 mkdir -p "$REPO_ROOT/skills" "$REPO_ROOT/extensions" "$REPO_ROOT/agents" "$REPO_ROOT/prompts"
 mkdir -p "$PI_CODING_AGENT_DIR/npm"
 
+# Symlink skills to Pi's discovery path
+ln -sfn "$REPO_ROOT/skills" "$PI_CODING_AGENT_DIR/skills"
+echo "✓ Skills linked"
+
 # Install extensions via pi command
 echo "Installing extensions..."
 "$REPO_ROOT/bin/pi" extensions install
