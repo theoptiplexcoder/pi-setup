@@ -20,13 +20,32 @@ if ! command -v pi >/dev/null 2>&1; then
 fi
 echo "✓ Pi installed: $(pi --version)"
 
+# Initialize git submodules if any exist
+if [ -f "$REPO_ROOT/.gitmodules" ]; then
+  echo "Initializing git submodules..."
+  git -C "$REPO_ROOT" submodule update --init --recursive
+fi
+
 # Create required directories
 mkdir -p "$REPO_ROOT/skills" "$REPO_ROOT/extensions" "$REPO_ROOT/agents" "$REPO_ROOT/prompts"
-mkdir -p "$PI_CODING_AGENT_DIR/npm"
+mkdir -p "$PI_CODING_AGENT_DIR/npm" "$PI_CODING_AGENT_DIR/extensions"
 
-# Symlink skills to Pi's discovery path
-ln -sfn "$REPO_ROOT/skills" "$PI_CODING_AGENT_DIR/skills"
+# Symlink skills, agents, and prompts to Pi's discovery path using relative paths
+ln -sfn "../../skills" "$PI_CODING_AGENT_DIR/skills"
 echo "✓ Skills linked"
+ln -sfn "../../agents" "$PI_CODING_AGENT_DIR/agents"
+echo "✓ Agents linked"
+ln -sfn "../../prompts" "$PI_CODING_AGENT_DIR/prompts"
+echo "✓ Prompts linked"
+
+# Symlink local extensions into .pi/agent/extensions
+for ext_dir in "$REPO_ROOT/extensions"/*/; do
+  if [ -d "$ext_dir" ]; then
+    ext_name="$(basename "$ext_dir")"
+    ln -sfn "../../../extensions/$ext_name" "$PI_CODING_AGENT_DIR/extensions/$ext_name"
+  fi
+done
+echo "✓ Extensions linked"
 
 # Install extensions via pi command
 echo "Installing extensions..."

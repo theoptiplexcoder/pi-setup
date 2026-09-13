@@ -17,3 +17,9 @@ node_modules/
 
 # Local overrides
 AGENTS.local.md
+
+# Symlinked configuration inside .pi/agent (managed by bin/setup)
+.pi/agent/skills
+.pi/agent/agents
+.pi/agent/prompts
+.pi/agent/extensions

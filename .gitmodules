@@ -1,0 +1,3 @@
+[submodule "extensions/git-watcher"]
+	path = extensions/git-watcher
+	url = git@github.com:theoptiplexcoder/pi-git-pusher.git
