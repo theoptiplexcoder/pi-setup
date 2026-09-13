@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.84.3",
+  "lastChangelogVersion": "0.85.1",
   "theme": "dark",
   "packages": [
     "npm:pi-antigravity",
@@ -9,7 +9,7 @@
     "npm:pi-subagents"
   ],
   "defaultProvider": "antigravity",
-  "defaultModel": "gemini-3.1-pro",
+  "defaultModel": "gemini-3.8-flash",
   "defaultThinkingLevel": "low",
   "subagents": {
     "defaultThinking": "low",

@@ -1711,5 +1711,972 @@
     "checkedAt": 1787895567023,
     "lastModified": 1787823129000,
     "etag": "W/\"5bfd649f95f953f04630db24a450e15b\""
+  },
+  "antigravity": {
+    "models": [
+      {
+        "id": "gemini-3.8-flash",
+        "name": "Gemini 3.8 Flash (Antigravity)",
+        "reasoning": true,
+        "thinkingLevelMap": {
+          "off": null,
+          "minimal": null,
+          "low": "low",
+          "medium": "medium",
+          "high": "high",
+          "xhigh": null,
+          "max": null
+        },
+        "input": [
+          "text",
+          "image"
+        ],
+        "cost": {
+          "input": 0.1,
+          "output": 0.4,
+          "cacheRead": 0.025,
+          "cacheWrite": 0.1
+        },
+        "contextWindow": 1048576,
+        "maxTokens": 65536,
+        "api": "antigravity-api",
+        "provider": "antigravity",
+        "baseUrl": "https://daily-cloudcode-pa.googleapis.com"
+      },
+      {
+        "id": "gemini-3.7-flash",
+        "name": "Gemini 3.7 Flash (Antigravity)",
+        "reasoning": true,
+        "thinkingLevelMap": {
+          "off": null,
+          "minimal": null,
+          "low": "low",
+          "medium": "medium",
+          "high": "high",
+          "xhigh": null,
+          "max": null
+        },
+        "input": [
+          "text",
+          "image"
+        ],
+        "cost": {
+          "input": 0.1,
+          "output": 0.4,
+          "cacheRead": 0.025,
+          "cacheWrite": 0.1
+        },
+        "contextWindow": 1048576,
+        "maxTokens": 65536,
+        "api": "antigravity-api",
+        "provider": "antigravity",
+        "baseUrl": "https://daily-cloudcode-pa.googleapis.com"
+      },
+      {
+        "id": "gemini-3.6-flash",
+        "name": "Gemini 3.6 Flash (Antigravity)",
+        "reasoning": true,
+        "thinkingLevelMap": {
+          "off": null,
+          "minimal": null,
+          "low": "low",
+          "medium": "medium",
+          "high": "high",
+          "xhigh": null,
+          "max": null
+        },
+        "input": [
+          "text",
+          "image"
+        ],
+        "cost": {
+          "input": 0.1,
+          "output": 0.4,
+          "cacheRead": 0.025,
+          "cacheWrite": 0.1
+        },
+        "contextWindow": 1048576,
+        "maxTokens": 65536,
+        "api": "antigravity-api",
+        "provider": "antigravity",
+        "baseUrl": "https://daily-cloudcode-pa.googleapis.com"
+      },
+      {
+        "id": "gemini-3.5-flash",
+        "name": "Gemini 3.5 Flash (Antigravity)",
+        "reasoning": true,
+        "thinkingLevelMap": {
+          "off": null,
+          "minimal": null,
+          "low": "low",
+          "medium": "medium",
+          "high": "high",
+          "xhigh": null,
+          "max": null
+        },
+        "input": [
+          "text",
+          "image"
+        ],
+        "cost": {
+          "input": 0.1,
+          "output": 0.4,
+          "cacheRead": 0.025,
+          "cacheWrite": 0.1
+        },
+        "contextWindow": 1048576,
+        "maxTokens": 65536,
+        "api": "antigravity-api",
+        "provider": "antigravity",
+        "baseUrl": "https://daily-cloudcode-pa.googleapis.com"
+      },
+      {
+        "id": "gemini-3.5-flash-lite",
+        "name": "Gemini 3.5 Flash Lite (Antigravity)",
+        "reasoning": true,
+        "thinkingLevelMap": {
+          "off": null,
+          "minimal": null,
+          "low": null,
+          "medium": null,
+          "high": "high",
+          "xhigh": null,
+          "max": null
+        },
+        "input": [
+          "text",
+          "image"
+        ],
+        "cost": {
+          "input": 0.1,
+          "output": 0.4,
+          "cacheRead": 0.025,
+          "cacheWrite": 0.1
+        },
+        "contextWindow": 1048576,
+        "maxTokens": 65536,
+        "api": "antigravity-api",
+        "provider": "antigravity",
+        "baseUrl": "https://daily-cloudcode-pa.googleapis.com"
+      },
+      {
+        "id": "gemini-3.1-flash-lite",
+        "name": "Gemini 3.1 Flash Lite (Antigravity)",
+        "reasoning": true,
+        "thinkingLevelMap": {
+          "off": null,
+          "minimal": null,
+          "low": null,
+          "medium": null,
+          "high": "high",
+          "xhigh": null,
+          "max": null
+        },
+        "input": [
+          "text",
+          "image"
+        ],
+        "cost": {
+          "input": 0.1,
+          "output": 0.4,
+          "cacheRead": 0.025,
+          "cacheWrite": 0.1
+        },
+        "contextWindow": 1048576,
+        "maxTokens": 65536,
+        "api": "antigravity-api",
+        "provider": "antigravity",
+        "baseUrl": "https://daily-cloudcode-pa.googleapis.com"
+      },
+      {
+        "id": "gemini-3-flash",
+        "name": "Gemini 3 Flash (Antigravity)",
+        "reasoning": true,
+        "thinkingLevelMap": {
+          "off": null,
+          "minimal": null,
+          "low": null,
+          "medium": null,
+          "high": "high",
+          "xhigh": null,
+          "max": null
+        },
+        "input": [
+          "text",
+          "image"
+        ],
+        "cost": {
+          "input": 0.1,
+          "output": 0.4,
+          "cacheRead": 0.025,
+          "cacheWrite": 0.1
+        },
+        "contextWindow": 1048576,
+        "maxTokens": 65536,
+        "api": "antigravity-api",
+        "provider": "antigravity",
+        "baseUrl": "https://daily-cloudcode-pa.googleapis.com"
+      },
+      {
+        "id": "gemini-2.5-flash",
+        "name": "Gemini 3.1 Flash Lite (Antigravity)",
+        "reasoning": true,
+        "thinkingLevelMap": {
+          "off": null,
+          "minimal": null,
+          "low": null,
+          "medium": null,
+          "high": "high",
+          "xhigh": null,
+          "max": null
+        },
+        "input": [
+          "text",
+          "image"
+        ],
+        "cost": {
+          "input": 0.1,
+          "output": 0.4,
+          "cacheRead": 0.025,
+          "cacheWrite": 0.1
+        },
+        "contextWindow": 1048576,
+        "maxTokens": 65536,
+        "api": "antigravity-api",
+        "provider": "antigravity",
+        "baseUrl": "https://daily-cloudcode-pa.googleapis.com"
+      },
+      {
+        "id": "gemini-2.5-flash-lite",
+        "name": "Gemini 3.1 Flash Lite (Antigravity)",
+        "reasoning": true,
+        "thinkingLevelMap": {
+          "off": null,
+          "minimal": null,
+          "low": null,
+          "medium": null,
+          "high": "high",
+          "xhigh": null,
+          "max": null
+        },
+        "input": [
+          "text",
+          "image"
+        ],
+        "cost": {
+          "input": 0.1,
+          "output": 0.4,
+          "cacheRead": 0.025,
+          "cacheWrite": 0.1
+        },
+        "contextWindow": 1048576,
+        "maxTokens": 65536,
+        "api": "antigravity-api",
+        "provider": "antigravity",
+        "baseUrl": "https://daily-cloudcode-pa.googleapis.com"
+      },
+      {
+        "id": "claude-opus-4-6",
+        "name": "Claude Opus 4.6 (Antigravity)",
+        "reasoning": true,
+        "thinkingLevelMap": {
+          "off": null,
+          "minimal": null,
+          "low": null,
+          "medium": null,
+          "high": "high",
+          "xhigh": null,
+          "max": null
+        },
+        "input": [
+          "text",
+          "image"
+        ],
+        "cost": {
+          "input": 15,
+          "output": 75,
+          "cacheRead": 1.5,
+          "cacheWrite": 18.75
+        },
+        "contextWindow": 250000,
+        "maxTokens": 64000,
+        "api": "antigravity-api",
+        "provider": "antigravity",
+        "baseUrl": "https://daily-cloudcode-pa.googleapis.com"
+      },
+      {
+        "id": "claude-sonnet-4-6",
+        "name": "Claude Sonnet 4.6 (Antigravity)",
+        "reasoning": true,
+        "thinkingLevelMap": {
+          "off": null,
+          "minimal": null,
+          "low": null,
+          "medium": null,
+          "high": "high",
+          "xhigh": null,
+          "max": null
+        },
+        "input": [
+          "text",
+          "image"
+        ],
+        "cost": {
+          "input": 3,
+          "output": 15,
+          "cacheRead": 0.3,
+          "cacheWrite": 3.75
+        },
+        "contextWindow": 200000,
+        "maxTokens": 64000,
+        "api": "antigravity-api",
+        "provider": "antigravity",
+        "baseUrl": "https://daily-cloudcode-pa.googleapis.com"
+      },
+      {
+        "id": "gemini-3.1-pro",
+        "name": "Gemini 3.1 Pro (Antigravity)",
+        "reasoning": true,
+        "thinkingLevelMap": {
+          "off": null,
+          "minimal": null,
+          "low": "low",
+          "medium": null,
+          "high": "high",
+          "xhigh": null,
+          "max": null
+        },
+        "input": [
+          "text",
+          "image"
+        ],
+        "cost": {
+          "input": 1.25,
+          "output": 5,
+          "cacheRead": 0.3125,
+          "cacheWrite": 1.25
+        },
+        "contextWindow": 1048576,
+        "maxTokens": 65535,
+        "api": "antigravity-api",
+        "provider": "antigravity",
+        "baseUrl": "https://daily-cloudcode-pa.googleapis.com"
+      },
+      {
+        "id": "gemini-2.5-pro",
+        "name": "Gemini 2.5 Pro (Antigravity)",
+        "reasoning": true,
+        "thinkingLevelMap": {
+          "off": null,
+          "minimal": null,
+          "low": null,
+          "medium": null,
+          "high": "high",
+          "xhigh": null,
+          "max": null
+        },
+        "input": [
+          "text",
+          "image"
+        ],
+        "cost": {
+          "input": 1.25,
+          "output": 5,
+          "cacheRead": 0.3125,
+          "cacheWrite": 1.25
+        },
+        "contextWindow": 1048576,
+        "maxTokens": 65535,
+        "api": "antigravity-api",
+        "provider": "antigravity",
+        "baseUrl": "https://daily-cloudcode-pa.googleapis.com"
+      },
+      {
+        "id": "gpt-oss-120b",
+        "name": "GPT-OSS 120B (Antigravity)",
+        "reasoning": true,
+        "thinkingLevelMap": {
+          "off": null,
+          "minimal": null,
+          "low": null,
+          "medium": "medium",
+          "high": null,
+          "xhigh": null,
+          "max": null
+        },
+        "input": [
+          "text"
+        ],
+        "cost": {
+          "input": 0.6,
+          "output": 2.4,
+          "cacheRead": 0.15,
+          "cacheWrite": 0.6
+        },
+        "contextWindow": 131072,
+        "maxTokens": 32768,
+        "api": "antigravity-api",
+        "provider": "antigravity",
+        "baseUrl": "https://daily-cloudcode-pa.googleapis.com"
+      }
+    ],
+    "pi-antigravity": {
+      "catalog": {
+        "models": [
+          {
+            "id": "gemini-3.8-flash",
+            "name": "Gemini 3.8 Flash (Antigravity)",
+            "reasoning": true,
+            "thinkingLevelMap": {
+              "off": null,
+              "minimal": null,
+              "low": "low",
+              "medium": "medium",
+              "high": "high",
+              "xhigh": null,
+              "max": null
+            },
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 0.1,
+              "output": 0.4,
+              "cacheRead": 0.025,
+              "cacheWrite": 0.1
+            },
+            "contextWindow": 1048576,
+            "maxTokens": 65536
+          },
+          {
+            "id": "gemini-3.7-flash",
+            "name": "Gemini 3.7 Flash (Antigravity)",
+            "reasoning": true,
+            "thinkingLevelMap": {
+              "off": null,
+              "minimal": null,
+              "low": "low",
+              "medium": "medium",
+              "high": "high",
+              "xhigh": null,
+              "max": null
+            },
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 0.1,
+              "output": 0.4,
+              "cacheRead": 0.025,
+              "cacheWrite": 0.1
+            },
+            "contextWindow": 1048576,
+            "maxTokens": 65536
+          },
+          {
+            "id": "gemini-3.6-flash",
+            "name": "Gemini 3.6 Flash (Antigravity)",
+            "reasoning": true,
+            "thinkingLevelMap": {
+              "off": null,
+              "minimal": null,
+              "low": "low",
+              "medium": "medium",
+              "high": "high",
+              "xhigh": null,
+              "max": null
+            },
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 0.1,
+              "output": 0.4,
+              "cacheRead": 0.025,
+              "cacheWrite": 0.1
+            },
+            "contextWindow": 1048576,
+            "maxTokens": 65536
+          },
+          {
+            "id": "gemini-3.5-flash",
+            "name": "Gemini 3.5 Flash (Antigravity)",
+            "reasoning": true,
+            "thinkingLevelMap": {
+              "off": null,
+              "minimal": null,
+              "low": "low",
+              "medium": "medium",
+              "high": "high",
+              "xhigh": null,
+              "max": null
+            },
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 0.1,
+              "output": 0.4,
+              "cacheRead": 0.025,
+              "cacheWrite": 0.1
+            },
+            "contextWindow": 1048576,
+            "maxTokens": 65536
+          },
+          {
+            "id": "gemini-3.5-flash-lite",
+            "name": "Gemini 3.5 Flash Lite (Antigravity)",
+            "reasoning": true,
+            "thinkingLevelMap": {
+              "off": null,
+              "minimal": null,
+              "low": null,
+              "medium": null,
+              "high": "high",
+              "xhigh": null,
+              "max": null
+            },
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 0.1,
+              "output": 0.4,
+              "cacheRead": 0.025,
+              "cacheWrite": 0.1
+            },
+            "contextWindow": 1048576,
+            "maxTokens": 65536
+          },
+          {
+            "id": "gemini-3.1-flash-lite",
+            "name": "Gemini 3.1 Flash Lite (Antigravity)",
+            "reasoning": true,
+            "thinkingLevelMap": {
+              "off": null,
+              "minimal": null,
+              "low": null,
+              "medium": null,
+              "high": "high",
+              "xhigh": null,
+              "max": null
+            },
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 0.1,
+              "output": 0.4,
+              "cacheRead": 0.025,
+              "cacheWrite": 0.1
+            },
+            "contextWindow": 1048576,
+            "maxTokens": 65536
+          },
+          {
+            "id": "gemini-3-flash",
+            "name": "Gemini 3 Flash (Antigravity)",
+            "reasoning": true,
+            "thinkingLevelMap": {
+              "off": null,
+              "minimal": null,
+              "low": null,
+              "medium": null,
+              "high": "high",
+              "xhigh": null,
+              "max": null
+            },
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 0.1,
+              "output": 0.4,
+              "cacheRead": 0.025,
+              "cacheWrite": 0.1
+            },
+            "contextWindow": 1048576,
+            "maxTokens": 65536
+          },
+          {
+            "id": "gemini-2.5-flash",
+            "name": "Gemini 3.1 Flash Lite (Antigravity)",
+            "reasoning": true,
+            "thinkingLevelMap": {
+              "off": null,
+              "minimal": null,
+              "low": null,
+              "medium": null,
+              "high": "high",
+              "xhigh": null,
+              "max": null
+            },
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 0.1,
+              "output": 0.4,
+              "cacheRead": 0.025,
+              "cacheWrite": 0.1
+            },
+            "contextWindow": 1048576,
+            "maxTokens": 65536
+          },
+          {
+            "id": "gemini-2.5-flash-lite",
+            "name": "Gemini 3.1 Flash Lite (Antigravity)",
+            "reasoning": true,
+            "thinkingLevelMap": {
+              "off": null,
+              "minimal": null,
+              "low": null,
+              "medium": null,
+              "high": "high",
+              "xhigh": null,
+              "max": null
+            },
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 0.1,
+              "output": 0.4,
+              "cacheRead": 0.025,
+              "cacheWrite": 0.1
+            },
+            "contextWindow": 1048576,
+            "maxTokens": 65536
+          },
+          {
+            "id": "claude-opus-4-6",
+            "name": "Claude Opus 4.6 (Antigravity)",
+            "reasoning": true,
+            "thinkingLevelMap": {
+              "off": null,
+              "minimal": null,
+              "low": null,
+              "medium": null,
+              "high": "high",
+              "xhigh": null,
+              "max": null
+            },
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 15,
+              "output": 75,
+              "cacheRead": 1.5,
+              "cacheWrite": 18.75
+            },
+            "contextWindow": 250000,
+            "maxTokens": 64000
+          },
+          {
+            "id": "claude-sonnet-4-6",
+            "name": "Claude Sonnet 4.6 (Antigravity)",
+            "reasoning": true,
+            "thinkingLevelMap": {
+              "off": null,
+              "minimal": null,
+              "low": null,
+              "medium": null,
+              "high": "high",
+              "xhigh": null,
+              "max": null
+            },
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 3,
+              "output": 15,
+              "cacheRead": 0.3,
+              "cacheWrite": 3.75
+            },
+            "contextWindow": 200000,
+            "maxTokens": 64000
+          },
+          {
+            "id": "gemini-3.1-pro",
+            "name": "Gemini 3.1 Pro (Antigravity)",
+            "reasoning": true,
+            "thinkingLevelMap": {
+              "off": null,
+              "minimal": null,
+              "low": "low",
+              "medium": null,
+              "high": "high",
+              "xhigh": null,
+              "max": null
+            },
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 1.25,
+              "output": 5,
+              "cacheRead": 0.3125,
+              "cacheWrite": 1.25
+            },
+            "contextWindow": 1048576,
+            "maxTokens": 65535
+          },
+          {
+            "id": "gemini-2.5-pro",
+            "name": "Gemini 2.5 Pro (Antigravity)",
+            "reasoning": true,
+            "thinkingLevelMap": {
+              "off": null,
+              "minimal": null,
+              "low": null,
+              "medium": null,
+              "high": "high",
+              "xhigh": null,
+              "max": null
+            },
+            "input": [
+              "text",
+              "image"
+            ],
+            "cost": {
+              "input": 1.25,
+              "output": 5,
+              "cacheRead": 0.3125,
+              "cacheWrite": 1.25
+            },
+            "contextWindow": 1048576,
+            "maxTokens": 65535
+          },
+          {
+            "id": "gpt-oss-120b",
+            "name": "GPT-OSS 120B (Antigravity)",
+            "reasoning": true,
+            "thinkingLevelMap": {
+              "off": null,
+              "minimal": null,
+              "low": null,
+              "medium": "medium",
+              "high": null,
+              "xhigh": null,
+              "max": null
+            },
+            "input": [
+              "text"
+            ],
+            "cost": {
+              "input": 0.6,
+              "output": 2.4,
+              "cacheRead": 0.15,
+              "cacheWrite": 0.6
+            },
+            "contextWindow": 131072,
+            "maxTokens": 32768
+          }
+        ],
+        "routing": {
+          "gemini-3.8-flash": {
+            "off": "gemini-3.8-flash-low",
+            "routing": {
+              "minimal": "gemini-3.8-flash-low",
+              "low": "gemini-3.8-flash-low",
+              "medium": "gemini-3.8-flash-medium",
+              "high": "gemini-3.8-flash-high",
+              "xhigh": "gemini-3.8-flash-high"
+            },
+            "defaultRequestId": "gemini-3.8-flash-low"
+          },
+          "gemini-3.5-flash-lite": {
+            "off": "gemini-3.5-flash-lite",
+            "routing": {
+              "minimal": "gemini-3.5-flash-lite",
+              "low": "gemini-3.5-flash-lite",
+              "medium": "gemini-3.5-flash-lite",
+              "high": "gemini-3.5-flash-lite",
+              "xhigh": "gemini-3.5-flash-lite"
+            },
+            "defaultRequestId": "gemini-3.5-flash-lite"
+          },
+          "gemini-3.1-pro": {
+            "off": "gemini-3.1-pro-low",
+            "routing": {
+              "minimal": "gemini-3.1-pro-low",
+              "low": "gemini-3.1-pro-low",
+              "medium": "gemini-3.1-pro-low",
+              "high": "gemini-pro-agent",
+              "xhigh": "gemini-pro-agent"
+            },
+            "defaultRequestId": "gemini-3.1-pro-low"
+          },
+          "gemini-3.7-flash": {
+            "off": "gemini-3.7-flash-low",
+            "routing": {
+              "minimal": "gemini-3.7-flash-low",
+              "low": "gemini-3.7-flash-low",
+              "medium": "gemini-3.7-flash-medium",
+              "high": "gemini-3.7-flash-high",
+              "xhigh": "gemini-3.7-flash-high"
+            },
+            "defaultRequestId": "gemini-3.7-flash-low"
+          },
+          "gemini-2.5-pro": {
+            "off": "gemini-2.5-pro",
+            "routing": {
+              "minimal": "gemini-2.5-pro",
+              "low": "gemini-2.5-pro",
+              "medium": "gemini-2.5-pro",
+              "high": "gemini-2.5-pro",
+              "xhigh": "gemini-2.5-pro"
+            },
+            "defaultRequestId": "gemini-2.5-pro"
+          },
+          "gemini-3.5-flash": {
+            "off": "gemini-3.5-flash-extra-low",
+            "routing": {
+              "minimal": "gemini-3.5-flash-extra-low",
+              "low": "gemini-3.5-flash-extra-low",
+              "medium": "gemini-3.5-flash-low",
+              "high": "gemini-3-flash-agent",
+              "xhigh": "gemini-3-flash-agent"
+            },
+            "defaultRequestId": "gemini-3.5-flash-extra-low"
+          },
+          "gemini-3.6-flash": {
+            "off": "gemini-3.6-flash-low",
+            "routing": {
+              "minimal": "gemini-3.6-flash-low",
+              "low": "gemini-3.6-flash-low",
+              "medium": "gemini-3.6-flash-medium",
+              "high": "gemini-3.6-flash-high",
+              "xhigh": "gemini-3.6-flash-high"
+            },
+            "defaultRequestId": "gemini-3.6-flash-low"
+          },
+          "gpt-oss-120b": {
+            "off": "gpt-oss-120b-medium",
+            "routing": {
+              "minimal": "gpt-oss-120b-medium",
+              "low": "gpt-oss-120b-medium",
+              "medium": "gpt-oss-120b-medium",
+              "high": "gpt-oss-120b-medium"
+            },
+            "defaultRequestId": "gpt-oss-120b-medium"
+          },
+          "gemini-2.5-flash": {
+            "off": "gemini-2.5-flash-thinking",
+            "routing": {
+              "minimal": "gemini-2.5-flash-thinking",
+              "low": "gemini-2.5-flash-thinking",
+              "medium": "gemini-2.5-flash-thinking",
+              "high": "gemini-2.5-flash-thinking",
+              "xhigh": "gemini-2.5-flash-thinking"
+            },
+            "defaultRequestId": "gemini-2.5-flash-thinking"
+          },
+          "gemini-3.1-flash-lite": {
+            "off": "gemini-3.1-flash-lite",
+            "routing": {
+              "minimal": "gemini-3.1-flash-lite",
+              "low": "gemini-3.1-flash-lite",
+              "medium": "gemini-3.1-flash-lite",
+              "high": "gemini-3.1-flash-lite",
+              "xhigh": "gemini-3.1-flash-lite"
+            },
+            "defaultRequestId": "gemini-3.1-flash-lite"
+          },
+          "gemini-2.5-flash-lite": {
+            "off": "gemini-2.5-flash-lite",
+            "routing": {
+              "minimal": "gemini-2.5-flash-lite",
+              "low": "gemini-2.5-flash-lite",
+              "medium": "gemini-2.5-flash-lite",
+              "high": "gemini-2.5-flash-lite",
+              "xhigh": "gemini-2.5-flash-lite"
+            },
+            "defaultRequestId": "gemini-2.5-flash-lite"
+          },
+          "claude-opus-4-6": {
+            "routing": {
+              "minimal": "claude-opus-4-6-thinking",
+              "low": "claude-opus-4-6-thinking",
+              "medium": "claude-opus-4-6-thinking",
+              "high": "claude-opus-4-6-thinking"
+            },
+            "defaultRequestId": "claude-opus-4-6-thinking"
+          },
+          "gemini-3-flash": {
+            "off": "gemini-3-flash",
+            "routing": {
+              "minimal": "gemini-3-flash",
+              "low": "gemini-3-flash",
+              "medium": "gemini-3-flash",
+              "high": "gemini-3-flash",
+              "xhigh": "gemini-3-flash"
+            },
+            "defaultRequestId": "gemini-3-flash"
+          },
+          "claude-sonnet-4-6": {
+            "off": "claude-sonnet-4-6",
+            "routing": {
+              "minimal": "claude-sonnet-4-6",
+              "low": "claude-sonnet-4-6",
+              "medium": "claude-sonnet-4-6",
+              "high": "claude-sonnet-4-6",
+              "xhigh": "claude-sonnet-4-6"
+            },
+            "defaultRequestId": "claude-sonnet-4-6"
+          }
+        }
+      },
+      "checkedAt": 1789286444106,
+      "modelEnums": {
+        "claude-opus-4-6-thinking": "MODEL_PLACEHOLDER_M26",
+        "gemini-3.7-flash-medium": "MODEL_PLACEHOLDER_M299",
+        "gemini-3.5-flash-extra-low": "MODEL_PLACEHOLDER_M187",
+        "gemini-3.1-pro-low": "MODEL_PLACEHOLDER_M36",
+        "gemini-3.5-flash-lite": "MODEL_PLACEHOLDER_M277",
+        "gemini-3-flash": "MODEL_PLACEHOLDER_M18",
+        "gemini-3-flash-agent": "MODEL_PLACEHOLDER_M84",
+        "gpt-oss-120b-medium": "MODEL_OPENAI_GPT_OSS_120B_MEDIUM",
+        "gemini-3.1-pro-high": "MODEL_PLACEHOLDER_M37",
+        "gemini-3.8-flash-tiered": "MODEL_PLACEHOLDER_M322",
+        "chat_20706": "MODEL_CHAT_20706",
+        "gemini-3.7-flash-tiered": "MODEL_PLACEHOLDER_M301",
+        "gemini-2.5-flash-thinking": "MODEL_GOOGLE_GEMINI_2_5_FLASH_THINKING",
+        "claude-sonnet-4-6": "MODEL_PLACEHOLDER_M35",
+        "gemini-3.5-flash-low": "MODEL_PLACEHOLDER_M20",
+        "gemini-3.6-flash-medium": "MODEL_PLACEHOLDER_M72",
+        "gemini-pro-agent": "MODEL_PLACEHOLDER_M16",
+        "gemini-3.8-flash-high": "MODEL_PLACEHOLDER_M318",
+        "gemini-2.5-pro": "MODEL_GOOGLE_GEMINI_2_5_PRO",
+        "gemini-2.5-flash-lite": "MODEL_GOOGLE_GEMINI_2_5_FLASH_LITE",
+        "gemini-3.7-flash-low": "MODEL_PLACEHOLDER_M300",
+        "gemini-3.8-flash-low": "MODEL_PLACEHOLDER_M320",
+        "gemini-3.6-flash-low": "MODEL_PLACEHOLDER_M73",
+        "gemini-2.5-flash": "MODEL_GOOGLE_GEMINI_2_5_FLASH",
+        "chat_23310": "MODEL_CHAT_23310",
+        "tab_flash_lite_preview": "MODEL_PLACEHOLDER_M19",
+        "tab_jump_flash_lite_preview": "MODEL_PLACEHOLDER_M28",
+        "gemini-3.1-flash-lite": "MODEL_PLACEHOLDER_M50",
+        "gemini-3.6-flash-tiered": "MODEL_PLACEHOLDER_M196",
+        "gemini-3.8-flash-medium": "MODEL_PLACEHOLDER_M319",
+        "gemini-3.6-flash-high": "MODEL_PLACEHOLDER_M71",
+        "gemini-3.1-flash-image": "MODEL_PLACEHOLDER_M21",
+        "gemini-3.7-flash-high": "MODEL_PLACEHOLDER_M298"
+      }
+    }
   }
 }
