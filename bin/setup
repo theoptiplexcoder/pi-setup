@@ -23,6 +23,7 @@ echo "✓ Pi installed: $(pi --version)"
 # Initialize git submodules if any exist
 if [ -f "$REPO_ROOT/.gitmodules" ]; then
   echo "Initializing git submodules..."
+  git -C "$REPO_ROOT" submodule sync --recursive
   git -C "$REPO_ROOT" submodule update --init --recursive
 fi
 
