@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# -----------------------------------------------------------------------------
+# graphify-deep: Run graphify deep extraction using Antigravity OAuth bridge
+# -----------------------------------------------------------------------------
+
+BRIDGE_PORT=51155
+BRIDGE_URL="http://127.0.0.1:${BRIDGE_PORT}/v1/models"
+BRIDGE_BIN="${HOME}/.local/bin/antigravity-openai-bridge"
+PROVIDERS_FILE="${HOME}/.graphify/providers.json"
+BRIDGE_PID=""
+STARTED_BRIDGE=0
+
+cleanup() {
+    if [[ "${STARTED_BRIDGE}" -eq 1 && -n "${BRIDGE_PID}" ]]; then
+        echo -e "\n[graphify-deep] Stopping background bridge (PID: ${BRIDGE_PID})..."
+        kill "${BRIDGE_PID}" 2>/dev/null || true
+        wait "${BRIDGE_PID}" 2>/dev/null || true
+    fi
+}
+trap cleanup EXIT INT TERM
+
+# 1. Ensure providers configuration is in place
+if [[ ! -f "${PROVIDERS_FILE}" ]] || ! grep -q '"antigravity"' "${PROVIDERS_FILE}" 2>/dev/null; then
+    echo "[graphify-deep] Configuring ~/.graphify/providers.json with 'antigravity' provider..."
+    mkdir -p "${HOME}/.graphify"
+    cat << 'EOF' > "${PROVIDERS_FILE}"
+{
+  "antigravity": {
+    "base_url": "http://127.0.0.1:51155/v1",
+    "default_model": "gemini-3.8-flash",
+    "env_key": "ANTIGRAVITY_DUMMY_KEY",
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "temperature": 0.0,
+    "max_tokens": 8192,
+    "vision": false
+  }
+}
+EOF
+fi
+
+# 2. Verify or start the Antigravity bridge daemon
+is_bridge_running() {
+    curl -s --connect-timeout 1 --max-time 2 "${BRIDGE_URL}" >/dev/null 2>&1
+}
+
+if ! is_bridge_running; then
+    if [[ ! -x "${BRIDGE_BIN}" ]]; then
+        echo "[graphify-deep] Error: Bridge binary not found or not executable at ${BRIDGE_BIN}" >&2
+        exit 1
+    fi
+    echo "[graphify-deep] Starting local Antigravity bridge on port ${BRIDGE_PORT}..."
+    "${BRIDGE_BIN}" >/dev/null 2>&1 &
+    BRIDGE_PID=$!
+    STARTED_BRIDGE=1
+
+    # Wait for bridge to become responsive
+    WAIT_COUNT=0
+    until is_bridge_running || [[ "${WAIT_COUNT}" -ge 20 ]]; do
+        sleep 0.25
+        WAIT_COUNT=$((WAIT_COUNT + 1))
+    done
+
+    if ! is_bridge_running; then
+        echo "[graphify-deep] Error: Antigravity bridge failed to respond within 5 seconds." >&2
+        exit 1
+    fi
+    echo "[graphify-deep] Bridge is online (PID: ${BRIDGE_PID})."
+else
+    echo "[graphify-deep] Existing Antigravity bridge found active on port ${BRIDGE_PORT}."
+fi
+
+# 3. Target directory & argument handling
+TARGET_DIR="."
+EXTRA_ARGS=()
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+        -h|--help)
+            echo "Usage: graphify-deep [TARGET_DIR] [EXTRA_GRAPHIFY_FLAGS...]"
+            echo ""
+            echo "Runs 'graphify extract <TARGET_DIR> --backend antigravity --mode deep' using"
+            echo "the local Antigravity OAuth bridge. Auto-spawns and cleans up the bridge if"
+            echo "it is not already running."
+            echo ""
+            echo "Examples:"
+            echo "  graphify-deep"
+            echo "  graphify-deep ./src"
+            echo "  graphify-deep . --max-workers 4"
+            exit 0
+            ;;
+        *)
+            if [[ -d "$1" || ! "$1" =~ ^- ]]; then
+                TARGET_DIR="$1"
+            else
+                EXTRA_ARGS+=("$1")
+            fi
+            shift
+            ;;
+    esac
+done
+
+export ANTIGRAVITY_DUMMY_KEY="${ANTIGRAVITY_DUMMY_KEY:-antigravity}"
+
+echo "[graphify-deep] Launching graphify deep extraction on '${TARGET_DIR}'..."
+graphify extract "${TARGET_DIR}" --backend antigravity --mode deep "${EXTRA_ARGS[@]}"

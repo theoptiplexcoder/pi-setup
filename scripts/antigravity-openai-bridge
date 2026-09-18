@@ -1,0 +1,254 @@
+#!/usr/bin/env python3
+"""
+Antigravity -> OpenAI Compatibility Bridge for Graphify.
+Listens on 127.0.0.1:51155 and translates /v1/chat/completions to Antigravity v1internal:generateContent
+using the OAuth tokens stored in ~/.pi/agent/auth.json.
+"""
+
+import os
+import sys
+import json
+import time
+import base64
+import urllib.request
+import urllib.parse
+from http.server import HTTPServer, BaseHTTPRequestHandler
+
+PORT = 51155
+AUTH_PATH = os.path.expanduser("~/.pi/agent/auth.json")
+
+_cached_token = None
+_token_expiry = 0
+_project_id = None
+
+
+def get_oauth_client():
+    """
+    Resolve Google Antigravity OAuth client credentials dynamically from the installed
+    pi-antigravity package or environment variables. Never hardcode client credentials.
+    """
+    client_id = os.environ.get("ANTIGRAVITY_CLIENT_ID")
+    client_secret = os.environ.get("ANTIGRAVITY_CLIENT_SECRET")
+    if client_id and client_secret:
+        return client_id, client_secret
+
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    repo_root = os.path.dirname(script_dir)
+    candidates = [
+        os.path.expanduser("~/.pi/agent/npm/node_modules/pi-antigravity/src/auth/oauth.ts"),
+        os.path.join(repo_root, ".pi/agent/npm/node_modules/pi-antigravity/src/auth/oauth.ts"),
+    ]
+    for path in candidates:
+        if os.path.isfile(path):
+            try:
+                with open(path, "r", encoding="utf-8", errors="ignore") as f:
+                    code = f.read()
+                m_id = re.search(r"CLIENT_ID\s*=.*?atob\((.*?)\)[;,]", code, re.DOTALL)
+                m_sec = re.search(r"CLIENT_SECRET\s*=.*?atob\((.*?)\)[;,]", code, re.DOTALL)
+                if m_id and m_sec:
+                    s_id = "".join(re.findall(r"\"([^\"]+)\"", m_id.group(1)))
+                    s_sec = "".join(re.findall(r"\"([^\"]+)\"", m_sec.group(1)))
+                    return base64.b64decode(s_id).decode(), base64.b64decode(s_sec).decode()
+            except Exception:
+                pass
+
+    return None, None
+
+
+def get_credentials():
+    global _cached_token, _token_expiry, _project_id
+    now = time.time()
+    if _cached_token and now < _token_expiry - 60:
+        return _cached_token, _project_id
+
+    if not os.path.exists(AUTH_PATH):
+        raise FileNotFoundError(f"Auth file not found at {AUTH_PATH}")
+
+    with open(AUTH_PATH, "r", encoding="utf-8") as f:
+        auth_data = json.load(f)
+
+    creds = auth_data.get("antigravity", {})
+    refresh_token = creds.get("refresh")
+    _project_id = creds.get("projectId") or "default"
+
+    if not refresh_token:
+        access_token = creds.get("access")
+        if access_token:
+            return access_token, _project_id
+        raise ValueError("No refresh token or access token found in ~/.pi/agent/auth.json for antigravity")
+
+    client_id, client_secret = get_oauth_client()
+    if not client_id or not client_secret:
+        # Fall back to access token if available
+        access_token = creds.get("access")
+        if access_token:
+            return access_token, _project_id
+        raise ValueError("OAuth client credentials could not be resolved from pi-antigravity or environment")
+
+    params = urllib.parse.urlencode({
+        "client_id": client_id,
+        "client_secret": client_secret,
+        "refresh_token": refresh_token,
+        "grant_type": "refresh_token",
+    }).encode("utf-8")
+
+    req = urllib.request.Request(
+        "https://oauth2.googleapis.com/token",
+        data=params,
+        headers={"Content-Type": "application/x-www-form-urlencoded"},
+    )
+    with urllib.request.urlopen(req, timeout=15) as resp:
+        res = json.loads(resp.read().decode("utf-8"))
+        _cached_token = res["access_token"]
+        _token_expiry = now + res.get("expires_in", 3600)
+
+    return _cached_token, _project_id
+
+
+class AntigravityBridgeHandler(BaseHTTPRequestHandler):
+    def log_message(self, format, *args):
+        sys.stderr.write(f"[antigravity-bridge] {format % args}\n")
+
+    def do_GET(self):
+        if self.path in ("/health", "/v1/models"):
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(b'{"object":"list","data":[{"id":"gemini-3.8-flash","object":"model"}]}')
+            return
+        self.send_response(404)
+        self.end_headers()
+
+    def do_POST(self):
+        if not self.path.startswith("/v1/chat/completions") and not self.path.startswith("/chat/completions"):
+            self.send_response(404)
+            self.end_headers()
+            return
+
+        content_length = int(self.headers.get("Content-Length", 0))
+        raw_body = self.rfile.read(content_length).decode("utf-8")
+        try:
+            req_data = json.loads(raw_body)
+        except Exception as e:
+            self.send_response(400)
+            self.end_headers()
+            self.wfile.write(json.dumps({"error": str(e)}).encode("utf-8"))
+            return
+
+        try:
+            token, project_id = get_credentials()
+        except Exception as e:
+            self.send_response(500)
+            self.end_headers()
+            self.wfile.write(json.dumps({"error": f"Failed to get Antigravity credentials: {e}"}).encode("utf-8"))
+            return
+
+        model = req_data.get("model") or "gemini-3.8-flash"
+        messages = req_data.get("messages", [])
+
+        system_instruction = None
+        contents = []
+
+        for msg in messages:
+            role = msg.get("role")
+            content = msg.get("content", "")
+
+            if role == "system":
+                system_instruction = {"parts": [{"text": content}]}
+            elif role == "assistant":
+                contents.append({"role": "model", "parts": [{"text": content}]})
+            else:
+                contents.append({"role": "user", "parts": [{"text": content}]})
+
+        gemini_req = {
+            "contents": contents,
+            "generationConfig": {
+                "temperature": req_data.get("temperature", 0.0),
+                "maxOutputTokens": req_data.get("max_tokens", 8192),
+            }
+        }
+        if system_instruction:
+            gemini_req["systemInstruction"] = system_instruction
+
+        url = f"https://autopush-daily-cloudaicompanion.sandbox.googleapis.com/v1internal:generateContent?model={model}"
+        payload = json.dumps(gemini_req).encode("utf-8")
+
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json",
+            "User-Agent": "antigravity-bridge/1.0",
+        }
+        if project_id and project_id != "default":
+            headers["X-Goog-User-Project"] = project_id
+
+        google_req = urllib.request.Request(url, data=payload, headers=headers)
+        try:
+            with urllib.request.urlopen(google_req, timeout=120) as resp:
+                resp_json = json.loads(resp.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            err_body = e.read().decode("utf-8")
+            self.send_response(e.code)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(err_body.encode("utf-8"))
+            return
+        except Exception as e:
+            self.send_response(500)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps({"error": str(e)}).encode("utf-8"))
+            return
+
+        candidates = resp_json.get("candidates", [])
+        text_content = ""
+        if candidates:
+            parts = candidates[0].get("content", {}).get("parts", [])
+            text_content = "".join([p.get("text", "") for p in parts])
+
+        usage = resp_json.get("usageMetadata", {})
+        prompt_tokens = usage.get("promptTokenCount", 0)
+        completion_tokens = usage.get("candidatesTokenCount", 0)
+
+        openai_resp = {
+            "id": f"chatcmpl-antigravity-{int(time.time())}",
+            "object": "chat.completion",
+            "created": int(time.time()),
+            "model": model,
+            "choices": [
+                {
+                    "index": 0,
+                    "message": {
+                        "role": "assistant",
+                        "content": text_content,
+                    },
+                    "finish_reason": "stop",
+                }
+            ],
+            "usage": {
+                "prompt_tokens": prompt_tokens,
+                "completion_tokens": completion_tokens,
+                "total_tokens": prompt_tokens + completion_tokens,
+            },
+        }
+
+        resp_bytes = json.dumps(openai_resp).encode("utf-8")
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(resp_bytes)))
+        self.end_headers()
+        self.wfile.write(resp_bytes)
+
+
+def run():
+    server_address = ("127.0.0.1", PORT)
+    httpd = HTTPServer(server_address, AntigravityBridgeHandler)
+    sys.stderr.write(f"Antigravity OpenAI Bridge listening on http://127.0.0.1:{PORT}\n")
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    httpd.server_close()
+
+
+if __name__ == "__main__":
+    run()

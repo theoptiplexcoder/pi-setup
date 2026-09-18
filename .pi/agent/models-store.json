@@ -1919,7 +1919,7 @@
       },
       {
         "id": "gemini-2.5-flash",
-        "name": "Gemini 3.1 Flash Lite (Antigravity)",
+        "name": "Gemini 3.5 Flash Lite (Antigravity)",
         "reasoning": true,
         "thinkingLevelMap": {
           "off": null,
@@ -1948,7 +1948,7 @@
       },
       {
         "id": "gemini-2.5-flash-lite",
-        "name": "Gemini 3.1 Flash Lite (Antigravity)",
+        "name": "Gemini 3.5 Flash Lite (Antigravity)",
         "reasoning": true,
         "thinkingLevelMap": {
           "off": null,
@@ -2307,7 +2307,7 @@
           },
           {
             "id": "gemini-2.5-flash",
-            "name": "Gemini 3.1 Flash Lite (Antigravity)",
+            "name": "Gemini 3.5 Flash Lite (Antigravity)",
             "reasoning": true,
             "thinkingLevelMap": {
               "off": null,
@@ -2333,7 +2333,7 @@
           },
           {
             "id": "gemini-2.5-flash-lite",
-            "name": "Gemini 3.1 Flash Lite (Antigravity)",
+            "name": "Gemini 3.5 Flash Lite (Antigravity)",
             "reasoning": true,
             "thinkingLevelMap": {
               "off": null,
@@ -2488,28 +2488,6 @@
           }
         ],
         "routing": {
-          "gemini-3.5-flash": {
-            "off": "gemini-3.5-flash-extra-low",
-            "routing": {
-              "minimal": "gemini-3.5-flash-extra-low",
-              "low": "gemini-3.5-flash-extra-low",
-              "medium": "gemini-3.5-flash-low",
-              "high": "gemini-3-flash-agent",
-              "xhigh": "gemini-3-flash-agent"
-            },
-            "defaultRequestId": "gemini-3.5-flash-extra-low"
-          },
-          "claude-sonnet-4-6": {
-            "off": "claude-sonnet-4-6",
-            "routing": {
-              "minimal": "claude-sonnet-4-6",
-              "low": "claude-sonnet-4-6",
-              "medium": "claude-sonnet-4-6",
-              "high": "claude-sonnet-4-6",
-              "xhigh": "claude-sonnet-4-6"
-            },
-            "defaultRequestId": "claude-sonnet-4-6"
-          },
           "gemini-3.6-flash": {
             "off": "gemini-3.6-flash-low",
             "routing": {
@@ -2520,28 +2498,6 @@
               "xhigh": "gemini-3.6-flash-high"
             },
             "defaultRequestId": "gemini-3.6-flash-low"
-          },
-          "gemini-3.1-pro": {
-            "off": "gemini-3.1-pro-low",
-            "routing": {
-              "minimal": "gemini-3.1-pro-low",
-              "low": "gemini-3.1-pro-low",
-              "medium": "gemini-3.1-pro-low",
-              "high": "gemini-pro-agent",
-              "xhigh": "gemini-pro-agent"
-            },
-            "defaultRequestId": "gemini-3.1-pro-low"
-          },
-          "gemini-3.8-flash": {
-            "off": "gemini-3.8-flash-low",
-            "routing": {
-              "minimal": "gemini-3.8-flash-low",
-              "low": "gemini-3.8-flash-low",
-              "medium": "gemini-3.8-flash-medium",
-              "high": "gemini-3.8-flash-high",
-              "xhigh": "gemini-3.8-flash-high"
-            },
-            "defaultRequestId": "gemini-3.8-flash-low"
           },
           "gemini-3.7-flash": {
             "off": "gemini-3.7-flash-low",
@@ -2554,37 +2510,16 @@
             },
             "defaultRequestId": "gemini-3.7-flash-low"
           },
-          "gemini-3.1-flash-lite": {
-            "off": "gemini-3.1-flash-lite",
+          "gemini-3.8-flash": {
+            "off": "gemini-3.8-flash-low",
             "routing": {
-              "minimal": "gemini-3.1-flash-lite",
-              "low": "gemini-3.1-flash-lite",
-              "medium": "gemini-3.1-flash-lite",
-              "high": "gemini-3.1-flash-lite",
-              "xhigh": "gemini-3.1-flash-lite"
+              "minimal": "gemini-3.8-flash-low",
+              "low": "gemini-3.8-flash-low",
+              "medium": "gemini-3.8-flash-medium",
+              "high": "gemini-3.8-flash-high",
+              "xhigh": "gemini-3.8-flash-high"
             },
-            "defaultRequestId": "gemini-3.1-flash-lite"
-          },
-          "gemini-2.5-flash-lite": {
-            "off": "gemini-2.5-flash-lite",
-            "routing": {
-              "minimal": "gemini-2.5-flash-lite",
-              "low": "gemini-2.5-flash-lite",
-              "medium": "gemini-2.5-flash-lite",
-              "high": "gemini-2.5-flash-lite",
-              "xhigh": "gemini-2.5-flash-lite"
-            },
-            "defaultRequestId": "gemini-2.5-flash-lite"
-          },
-          "gpt-oss-120b": {
-            "off": "gpt-oss-120b-medium",
-            "routing": {
-              "minimal": "gpt-oss-120b-medium",
-              "low": "gpt-oss-120b-medium",
-              "medium": "gpt-oss-120b-medium",
-              "high": "gpt-oss-120b-medium"
-            },
-            "defaultRequestId": "gpt-oss-120b-medium"
+            "defaultRequestId": "gemini-3.8-flash-low"
           },
           "claude-opus-4-6": {
             "routing": {
@@ -2594,6 +2529,28 @@
               "high": "claude-opus-4-6-thinking"
             },
             "defaultRequestId": "claude-opus-4-6-thinking"
+          },
+          "gemini-3.5-flash": {
+            "off": "gemini-3.5-flash-extra-low",
+            "routing": {
+              "minimal": "gemini-3.5-flash-extra-low",
+              "low": "gemini-3.5-flash-extra-low",
+              "medium": "gemini-3.5-flash-low",
+              "high": "gemini-3-flash-agent",
+              "xhigh": "gemini-3-flash-agent"
+            },
+            "defaultRequestId": "gemini-3.5-flash-extra-low"
+          },
+          "gemini-3.1-pro": {
+            "off": "gemini-3.1-pro-low",
+            "routing": {
+              "minimal": "gemini-3.1-pro-low",
+              "low": "gemini-3.1-pro-low",
+              "medium": "gemini-3.1-pro-low",
+              "high": "gemini-pro-agent",
+              "xhigh": "gemini-pro-agent"
+            },
+            "defaultRequestId": "gemini-3.1-pro-low"
           },
           "gemini-2.5-flash": {
             "off": "gemini-2.5-flash-thinking",
@@ -2606,16 +2563,16 @@
             },
             "defaultRequestId": "gemini-2.5-flash-thinking"
           },
-          "gemini-3.5-flash-lite": {
-            "off": "gemini-3.5-flash-lite",
+          "gemini-2.5-pro": {
+            "off": "gemini-2.5-pro",
             "routing": {
-              "minimal": "gemini-3.5-flash-lite",
-              "low": "gemini-3.5-flash-lite",
-              "medium": "gemini-3.5-flash-lite",
-              "high": "gemini-3.5-flash-lite",
-              "xhigh": "gemini-3.5-flash-lite"
+              "minimal": "gemini-2.5-pro",
+              "low": "gemini-2.5-pro",
+              "medium": "gemini-2.5-pro",
+              "high": "gemini-2.5-pro",
+              "xhigh": "gemini-2.5-pro"
             },
-            "defaultRequestId": "gemini-3.5-flash-lite"
+            "defaultRequestId": "gemini-2.5-pro"
           },
           "gemini-3-flash": {
             "off": "gemini-3-flash",
@@ -2628,26 +2585,69 @@
             },
             "defaultRequestId": "gemini-3-flash"
           },
-          "gemini-2.5-pro": {
-            "off": "gemini-2.5-pro",
+          "gemini-3.5-flash-lite": {
+            "off": "gemini-3.5-flash-lite",
             "routing": {
-              "minimal": "gemini-2.5-pro",
-              "low": "gemini-2.5-pro",
-              "medium": "gemini-2.5-pro",
-              "high": "gemini-2.5-pro",
-              "xhigh": "gemini-2.5-pro"
+              "minimal": "gemini-3.5-flash-lite",
+              "low": "gemini-3.5-flash-lite",
+              "medium": "gemini-3.5-flash-lite",
+              "high": "gemini-3.5-flash-lite",
+              "xhigh": "gemini-3.5-flash-lite"
             },
-            "defaultRequestId": "gemini-2.5-pro"
+            "defaultRequestId": "gemini-3.5-flash-lite"
+          },
+          "gpt-oss-120b": {
+            "off": "gpt-oss-120b-medium",
+            "routing": {
+              "minimal": "gpt-oss-120b-medium",
+              "low": "gpt-oss-120b-medium",
+              "medium": "gpt-oss-120b-medium",
+              "high": "gpt-oss-120b-medium"
+            },
+            "defaultRequestId": "gpt-oss-120b-medium"
+          },
+          "gemini-2.5-flash-lite": {
+            "off": "gemini-2.5-flash-lite",
+            "routing": {
+              "minimal": "gemini-2.5-flash-lite",
+              "low": "gemini-2.5-flash-lite",
+              "medium": "gemini-2.5-flash-lite",
+              "high": "gemini-2.5-flash-lite",
+              "xhigh": "gemini-2.5-flash-lite"
+            },
+            "defaultRequestId": "gemini-2.5-flash-lite"
+          },
+          "gemini-3.1-flash-lite": {
+            "off": "gemini-3.1-flash-lite",
+            "routing": {
+              "minimal": "gemini-3.1-flash-lite",
+              "low": "gemini-3.1-flash-lite",
+              "medium": "gemini-3.1-flash-lite",
+              "high": "gemini-3.1-flash-lite",
+              "xhigh": "gemini-3.1-flash-lite"
+            },
+            "defaultRequestId": "gemini-3.1-flash-lite"
+          },
+          "claude-sonnet-4-6": {
+            "off": "claude-sonnet-4-6",
+            "routing": {
+              "minimal": "claude-sonnet-4-6",
+              "low": "claude-sonnet-4-6",
+              "medium": "claude-sonnet-4-6",
+              "high": "claude-sonnet-4-6",
+              "xhigh": "claude-sonnet-4-6"
+            },
+            "defaultRequestId": "claude-sonnet-4-6"
           }
         }
       },
-      "checkedAt": 1789378984221,
+      "checkedAt": 1789714564441,
       "modelEnums": {
         "claude-opus-4-6-thinking": "MODEL_PLACEHOLDER_M26",
         "gemini-3.7-flash-medium": "MODEL_PLACEHOLDER_M299",
         "gemini-3.5-flash-extra-low": "MODEL_PLACEHOLDER_M187",
         "gemini-3.1-pro-low": "MODEL_PLACEHOLDER_M36",
-        "gemini-3.5-flash-lite": "MODEL_PLACEHOLDER_M277",
+        "gemini-3.5-flash-lite": "MODEL_PLACEHOLDER_M198",
         "gemini-3-flash": "MODEL_PLACEHOLDER_M18",
         "gemini-3-flash-agent": "MODEL_PLACEHOLDER_M84",
         "gpt-oss-120b-medium": "MODEL_OPENAI_GPT_OSS_120B_MEDIUM",

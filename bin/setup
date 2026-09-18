@@ -61,4 +61,58 @@ for ext_dir in "$REPO_ROOT/extensions"/*/; do
   fi
 done
 
+# Optional: Antigravity OpenAI Bridge setup for Graphify deep extraction
+echo ""
+read -r -p "Do you want to configure Antigravity OAuth bridge for graphify deep extraction? (y/N): " enable_antigravity_bridge || enable_antigravity_bridge="n"
+
+if [[ "$enable_antigravity_bridge" =~ ^[Yy]$ ]]; then
+  echo "Setting up Antigravity OAuth bridge..."
+  mkdir -p "$HOME/.local/bin" "$HOME/.graphify"
+
+  # Install bridge script and graphify-deep wrapper
+  cp "$REPO_ROOT/scripts/antigravity-openai-bridge" "$HOME/.local/bin/antigravity-openai-bridge"
+  chmod +x "$HOME/.local/bin/antigravity-openai-bridge"
+  cp "$REPO_ROOT/scripts/graphify-deep" "$HOME/.local/bin/graphify-deep"
+  chmod +x "$HOME/.local/bin/graphify-deep"
+
+  # Configure ~/.graphify/providers.json
+  PROVIDERS_FILE="$HOME/.graphify/providers.json"
+  if [[ ! -f "$PROVIDERS_FILE" ]] || ! grep -q '"antigravity"' "$PROVIDERS_FILE" 2>/dev/null; then
+    echo "Configuring $PROVIDERS_FILE..."
+    cat << 'EOF' > "$PROVIDERS_FILE"
+{
+  "antigravity": {
+    "base_url": "http://127.0.0.1:51155/v1",
+    "default_model": "gemini-3.8-flash",
+    "env_key": "ANTIGRAVITY_DUMMY_KEY",
+    "pricing": {
+      "input": 0.0,
+      "output": 0.0
+    },
+    "temperature": 0.0,
+    "max_tokens": 8192,
+    "vision": false
+  }
+}
+EOF
+  fi
+
+  # Append instruction to AGENTS.local.md if it exists or create it from example
+  AGENTS_LOCAL="$REPO_ROOT/AGENTS.local.md"
+  GRAPHIFY_INSTRUCTION='- For `graphify --mode deep`: ensure `~/.local/bin/antigravity-openai-bridge` runs on port 51155 and run with `ANTIGRAVITY_DUMMY_KEY="dummy" graphify extract . --backend antigravity --mode deep` (uses Antigravity OAuth, no API key required).'
+
+  if [[ ! -f "$AGENTS_LOCAL" ]]; then
+    cp "$REPO_ROOT/AGENTS.local.md.example" "$AGENTS_LOCAL"
+    echo "✓ Created AGENTS.local.md from example"
+  elif ! grep -Fq "antigravity-openai-bridge" "$AGENTS_LOCAL"; then
+    echo "" >> "$AGENTS_LOCAL"
+    echo "$GRAPHIFY_INSTRUCTION" >> "$AGENTS_LOCAL"
+    echo "✓ Added graphify Antigravity bridge instruction to AGENTS.local.md"
+  fi
+
+  echo "✓ Antigravity bridge scripts installed in ~/.local/bin"
+  echo "  You can now use 'graphify-deep [dir]' or run the bridge manually on port 51155."
+fi
+
+echo ""
 echo "Setup complete! Run with: ./bin/pi"

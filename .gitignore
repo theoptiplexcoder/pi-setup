@@ -8,6 +8,7 @@ node_modules/
 .pi/agent/missions/
 .pi/agent/*artifacts*/
 .pi/agent/bin/
+.pi/agent/pi-debug.log
 
 # Secrets
 .pi/agent/auth.json

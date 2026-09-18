@@ -6,7 +6,9 @@
     "npm:opencode-pi",
     "npm:pi-web-access",
     "npm:@davecodes/pi-dcp",
-    "npm:pi-subagents"
+    "npm:pi-subagents",
+    "npm:pi-memory",
+    "npm:@gaodes/pi-graphify"
   ],
   "defaultProvider": "antigravity",
   "defaultModel": "gemini-3.8-flash",
