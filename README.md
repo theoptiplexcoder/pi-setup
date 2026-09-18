@@ -18,6 +18,11 @@ A portable, Git-managed Pi coding agent harness.
    ./bin/pi
    ```
 
+> **NOTE:** Personal suggestion: using Herdr allows Pi to work much better with this harness. You can install it with:
+> ```bash
+> curl -fsSL https://herdr.dev/install.sh | sh
+> ```
+
 ## Repository Structure
 
 - `bin/pi`: Repository-local launcher for Pi
