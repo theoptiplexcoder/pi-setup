@@ -1,0 +1,12 @@
+[
+  {
+    "timestamp": "2026-09-23T09:57:33.106Z",
+    "version": "0.86.0",
+    "kind": "uncaught_exception",
+    "message": "message.content.map is not a function",
+    "stack": "TypeError: message.content.map is not a function\n    at serializeMessage (/home/ybl/git/pi-setup/.pi/agent/npm/node_modules/opencode-pi/src/index.ts:637:33)\n    at Array.map (<anonymous>)\n    at serializedTranscriptParts (/home/ybl/git/pi-setup/.pi/agent/npm/node_modules/opencode-pi/src/index.ts:1235:19)\n    at /home/ybl/git/pi-setup/.pi/agent/npm/node_modules/opencode-pi/src/index.ts:1354:29\n    at Object.streamOpenCode [as streamSimple] (/home/ybl/git/pi-setup/.pi/agent/npm/node_modules/opencode-pi/src/index.ts:1720:5)\n    at file:///home/ybl/.nvm/versions/node/v26.2.0/lib/node_modules/@earendil-works/pi-coding-agent/dist/bundle/chunks/chunk-7YM6BE7Y.js:618:13772\n    at lazyStream (file:///home/ybl/.nvm/versions/node/v26.2.0/lib/node_modules/@earendil-works/pi-coding-agent/dist/bundle/chunks/chunk-RCZIEVGO.js:11:3237)\n    at streamWith (file:///home/ybl/.nvm/versions/node/v26.2.0/lib/node_modules/@earendil-works/pi-coding-agent/dist/bundle/chunks/chunk-7YM6BE7Y.js:618:13674)\n    at Object.streamSimple (file:///home/ybl/.nvm/versions/node/v26.2.0/lib/node_modules/@earendil-works/pi-coding-agent/dist/bundle/chunks/chunk-7YM6BE7Y.js:618:15193)\n    at file:///home/ybl/.nvm/versions/node/v26.2.0/lib/node_modules/@earendil-works/pi-coding-agent/dist/bundle/chunks/chunk-7YM6BE7Y.js:620:5099",
+    "sessionFile": "/home/ybl/git/pi-setup/.pi/agent/sessions/--home-ybl-proj-ChemDB-sir-Chem--/2026-09-23T09-55-45-990Z_01a0cdb1-54c5-7102-a37b-1240079ed611.jsonl",
+    "cwd": "/home/ybl/proj/ChemDB/sir/Chem",
+    "notified": true
+  }
+]
