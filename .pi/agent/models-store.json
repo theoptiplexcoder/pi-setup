@@ -2488,17 +2488,6 @@
           }
         ],
         "routing": {
-          "gemini-3-flash": {
-            "off": "gemini-3-flash",
-            "routing": {
-              "minimal": "gemini-3-flash",
-              "low": "gemini-3-flash",
-              "medium": "gemini-3-flash",
-              "high": "gemini-3-flash",
-              "xhigh": "gemini-3-flash"
-            },
-            "defaultRequestId": "gemini-3-flash"
-          },
           "gemini-3.1-pro": {
             "off": "gemini-3.1-pro-low",
             "routing": {
@@ -2509,39 +2498,6 @@
               "xhigh": "gemini-pro-agent"
             },
             "defaultRequestId": "gemini-3.1-pro-low"
-          },
-          "gemini-3.6-flash": {
-            "off": "gemini-3.6-flash-low",
-            "routing": {
-              "minimal": "gemini-3.6-flash-low",
-              "low": "gemini-3.6-flash-low",
-              "medium": "gemini-3.6-flash-medium",
-              "high": "gemini-3.6-flash-high",
-              "xhigh": "gemini-3.6-flash-high"
-            },
-            "defaultRequestId": "gemini-3.6-flash-low"
-          },
-          "gemini-3.8-flash": {
-            "off": "gemini-3.8-flash-low",
-            "routing": {
-              "minimal": "gemini-3.8-flash-low",
-              "low": "gemini-3.8-flash-low",
-              "medium": "gemini-3.8-flash-medium",
-              "high": "gemini-3.8-flash-high",
-              "xhigh": "gemini-3.8-flash-high"
-            },
-            "defaultRequestId": "gemini-3.8-flash-low"
-          },
-          "gemini-2.5-flash": {
-            "off": "gemini-2.5-flash-thinking",
-            "routing": {
-              "minimal": "gemini-2.5-flash-thinking",
-              "low": "gemini-2.5-flash-thinking",
-              "medium": "gemini-2.5-flash-thinking",
-              "high": "gemini-2.5-flash-thinking",
-              "xhigh": "gemini-2.5-flash-thinking"
-            },
-            "defaultRequestId": "gemini-2.5-flash-thinking"
           },
           "gemini-2.5-pro": {
             "off": "gemini-2.5-pro",
@@ -2554,46 +2510,27 @@
             },
             "defaultRequestId": "gemini-2.5-pro"
           },
-          "gemini-3.1-flash-lite": {
-            "off": "gemini-3.1-flash-lite",
+          "gemini-3.5-flash-lite": {
+            "off": "gemini-3.5-flash-lite",
             "routing": {
-              "minimal": "gemini-3.1-flash-lite",
-              "low": "gemini-3.1-flash-lite",
-              "medium": "gemini-3.1-flash-lite",
-              "high": "gemini-3.1-flash-lite",
-              "xhigh": "gemini-3.1-flash-lite"
+              "minimal": "gemini-3.5-flash-lite",
+              "low": "gemini-3.5-flash-lite",
+              "medium": "gemini-3.5-flash-lite",
+              "high": "gemini-3.5-flash-lite",
+              "xhigh": "gemini-3.5-flash-lite"
             },
-            "defaultRequestId": "gemini-3.1-flash-lite"
+            "defaultRequestId": "gemini-3.5-flash-lite"
           },
-          "gpt-oss-120b": {
-            "off": "gpt-oss-120b-medium",
+          "gemini-3.8-flash": {
+            "off": "gemini-3.8-flash-low",
             "routing": {
-              "minimal": "gpt-oss-120b-medium",
-              "low": "gpt-oss-120b-medium",
-              "medium": "gpt-oss-120b-medium",
-              "high": "gpt-oss-120b-medium"
+              "minimal": "gemini-3.8-flash-low",
+              "low": "gemini-3.8-flash-low",
+              "medium": "gemini-3.8-flash-medium",
+              "high": "gemini-3.8-flash-high",
+              "xhigh": "gemini-3.8-flash-high"
             },
-            "defaultRequestId": "gpt-oss-120b-medium"
-          },
-          "claude-opus-4-6": {
-            "routing": {
-              "minimal": "claude-opus-4-6-thinking",
-              "low": "claude-opus-4-6-thinking",
-              "medium": "claude-opus-4-6-thinking",
-              "high": "claude-opus-4-6-thinking"
-            },
-            "defaultRequestId": "claude-opus-4-6-thinking"
-          },
-          "gemini-2.5-flash-lite": {
-            "off": "gemini-2.5-flash-lite",
-            "routing": {
-              "minimal": "gemini-2.5-flash-lite",
-              "low": "gemini-2.5-flash-lite",
-              "medium": "gemini-2.5-flash-lite",
-              "high": "gemini-2.5-flash-lite",
-              "xhigh": "gemini-2.5-flash-lite"
-            },
-            "defaultRequestId": "gemini-2.5-flash-lite"
+            "defaultRequestId": "gemini-3.8-flash-low"
           },
           "claude-sonnet-4-6": {
             "off": "claude-sonnet-4-6",
@@ -2617,6 +2554,17 @@
             },
             "defaultRequestId": "gemini-3.5-flash-extra-low"
           },
+          "gemini-3.6-flash": {
+            "off": "gemini-3.6-flash-low",
+            "routing": {
+              "minimal": "gemini-3.6-flash-low",
+              "low": "gemini-3.6-flash-low",
+              "medium": "gemini-3.6-flash-medium",
+              "high": "gemini-3.6-flash-high",
+              "xhigh": "gemini-3.6-flash-high"
+            },
+            "defaultRequestId": "gemini-3.6-flash-low"
+          },
           "gemini-3.7-flash": {
             "off": "gemini-3.7-flash-low",
             "routing": {
@@ -2628,20 +2576,72 @@
             },
             "defaultRequestId": "gemini-3.7-flash-low"
           },
-          "gemini-3.5-flash-lite": {
-            "off": "gemini-3.5-flash-lite",
+          "gemini-2.5-flash": {
+            "off": "gemini-2.5-flash-thinking",
             "routing": {
-              "minimal": "gemini-3.5-flash-lite",
-              "low": "gemini-3.5-flash-lite",
-              "medium": "gemini-3.5-flash-lite",
-              "high": "gemini-3.5-flash-lite",
-              "xhigh": "gemini-3.5-flash-lite"
+              "minimal": "gemini-2.5-flash-thinking",
+              "low": "gemini-2.5-flash-thinking",
+              "medium": "gemini-2.5-flash-thinking",
+              "high": "gemini-2.5-flash-thinking",
+              "xhigh": "gemini-2.5-flash-thinking"
             },
-            "defaultRequestId": "gemini-3.5-flash-lite"
+            "defaultRequestId": "gemini-2.5-flash-thinking"
+          },
+          "gemini-3.1-flash-lite": {
+            "off": "gemini-3.1-flash-lite",
+            "routing": {
+              "minimal": "gemini-3.1-flash-lite",
+              "low": "gemini-3.1-flash-lite",
+              "medium": "gemini-3.1-flash-lite",
+              "high": "gemini-3.1-flash-lite",
+              "xhigh": "gemini-3.1-flash-lite"
+            },
+            "defaultRequestId": "gemini-3.1-flash-lite"
+          },
+          "claude-opus-4-6": {
+            "routing": {
+              "minimal": "claude-opus-4-6-thinking",
+              "low": "claude-opus-4-6-thinking",
+              "medium": "claude-opus-4-6-thinking",
+              "high": "claude-opus-4-6-thinking"
+            },
+            "defaultRequestId": "claude-opus-4-6-thinking"
+          },
+          "gemini-2.5-flash-lite": {
+            "off": "gemini-2.5-flash-lite",
+            "routing": {
+              "minimal": "gemini-2.5-flash-lite",
+              "low": "gemini-2.5-flash-lite",
+              "medium": "gemini-2.5-flash-lite",
+              "high": "gemini-2.5-flash-lite",
+              "xhigh": "gemini-2.5-flash-lite"
+            },
+            "defaultRequestId": "gemini-2.5-flash-lite"
+          },
+          "gemini-3-flash": {
+            "off": "gemini-3-flash",
+            "routing": {
+              "minimal": "gemini-3-flash",
+              "low": "gemini-3-flash",
+              "medium": "gemini-3-flash",
+              "high": "gemini-3-flash",
+              "xhigh": "gemini-3-flash"
+            },
+            "defaultRequestId": "gemini-3-flash"
+          },
+          "gpt-oss-120b": {
+            "off": "gpt-oss-120b-medium",
+            "routing": {
+              "minimal": "gpt-oss-120b-medium",
+              "low": "gpt-oss-120b-medium",
+              "medium": "gpt-oss-120b-medium",
+              "high": "gpt-oss-120b-medium"
+            },
+            "defaultRequestId": "gpt-oss-120b-medium"
           }
         }
       },
-      "checkedAt": 1790171300107,
+      "checkedAt": 1790683250186,
       "modelEnums": {
         "claude-opus-4-6-thinking": "MODEL_PLACEHOLDER_M26",
         "gemini-3.7-flash-medium": "MODEL_PLACEHOLDER_M299",
@@ -2724,7 +2724,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "claude-fable-5.1",
@@ -2769,7 +2770,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "claude-haiku-4.5",
@@ -2808,7 +2810,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "claude-opus-4.7",
@@ -2853,7 +2856,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "claude-opus-4.8",
@@ -2899,7 +2903,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "claude-opus-5",
@@ -2945,7 +2950,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "claude-opus-5.5",
@@ -2995,7 +3001,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "claude-sonnet-4.6",
@@ -3038,7 +3045,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "claude-sonnet-5",
@@ -3081,7 +3089,54 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
+      },
+      {
+        "id": "claude-sonnet-5.5",
+        "name": "Claude Sonnet 5.5",
+        "api": "anthropic-messages",
+        "provider": "github-copilot",
+        "baseUrl": "https://api.individual.githubcopilot.com",
+        "reasoning": true,
+        "input": [
+          "text",
+          "image"
+        ],
+        "cost": {
+          "input": 2,
+          "output": 10,
+          "cacheRead": 0.2,
+          "cacheWrite": 2.5
+        },
+        "contextWindow": 1000000,
+        "maxTokens": 128000,
+        "headers": {
+          "User-Agent": "GitHubCopilotChat/0.35.0",
+          "Editor-Version": "vscode/1.107.0",
+          "Editor-Plugin-Version": "copilot-chat/0.35.0",
+          "Copilot-Integration-Id": "vscode-chat"
+        },
+        "compat": {
+          "supportsMidConvoSystemMessages": true,
+          "forceAdaptiveThinking": true,
+          "supportsTemperature": false
+        },
+        "thinkingLevelMap": {
+          "xhigh": "xhigh",
+          "max": "max"
+        },
+        "inputLimits": {
+          "images": {
+            "resize": {
+              "maxWidth": 2000,
+              "maxHeight": 2000,
+              "maxBytes": 4718592,
+              "jpegQuality": 80
+            }
+          }
+        },
+        "type": "chat"
       },
       {
         "id": "gemini-3.5-flash",
@@ -3123,7 +3178,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gemini-3.6-flash",
@@ -3165,7 +3221,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gemini-3.7-flash",
@@ -3207,7 +3264,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gemini-3.8-flash",
@@ -3249,7 +3307,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gpt-5-mini",
@@ -3297,7 +3356,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gpt-5.3-codex",
@@ -3345,7 +3405,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gpt-5.4",
@@ -3404,7 +3465,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gpt-5.4-mini",
@@ -3454,7 +3516,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gpt-5.4-nano",
@@ -3498,7 +3561,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gpt-5.5",
@@ -3557,7 +3621,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gpt-5.6-luna",
@@ -3616,7 +3681,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gpt-5.6-sol",
@@ -3675,7 +3741,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gpt-5.6-terra",
@@ -3734,7 +3801,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gpt-6-astra",
@@ -3793,7 +3861,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gpt-6-luna",
@@ -3852,7 +3921,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gpt-6-sol",
@@ -3911,7 +3981,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "grok-4.5",
@@ -3965,7 +4036,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "grok-4.6",
@@ -4019,7 +4091,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "grok-4.7",
@@ -4073,7 +4146,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "kimi-k2.7-code",
@@ -4115,7 +4189,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "kimi-k3",
@@ -4158,7 +4233,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "mai-code-1-flash-picker",
@@ -4192,7 +4268,8 @@
           "high": "high",
           "xhigh": null,
           "max": null
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "mai-code-1.1-flash",
@@ -4237,12 +4314,13 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       }
     ],
-    "checkedAt": 1790178805447,
-    "lastModified": 1790159361000,
-    "etag": "W/\"fc813c63c095880864f0ea3915e3dcdf\""
+    "checkedAt": 1790684221430,
+    "lastModified": 1790683759000,
+    "etag": "W/\"a8bbc17c52f64ce946eb364942dd676e\""
   },
   "openai-codex": {
     "models": [
@@ -4270,7 +4348,8 @@
         },
         "compat": {
           "supportsOpenAIGrammarTools": true
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gpt-5.5",
@@ -4318,7 +4397,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gpt-5.6-luna",
@@ -4368,7 +4448,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gpt-5.6-sol",
@@ -4418,7 +4499,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gpt-5.6-terra",
@@ -4468,7 +4550,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gpt-6-astra",
@@ -4522,7 +4605,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gpt-6-luna",
@@ -4576,7 +4660,8 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       },
       {
         "id": "gpt-6-sol",
@@ -4630,11 +4715,12 @@
               "jpegQuality": 80
             }
           }
-        }
+        },
+        "type": "chat"
       }
     ],
-    "checkedAt": 1790178805376,
-    "lastModified": 1790105581000,
-    "etag": "W/\"8cccd87cd4980e40933b6ce647c3a69e\""
+    "checkedAt": 1790684220565,
+    "lastModified": 1790340040000,
+    "etag": "W/\"33d4f9db141f788989850e1ac9cf899e\""
   }
 }

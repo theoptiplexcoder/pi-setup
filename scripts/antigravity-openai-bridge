@@ -7,6 +7,7 @@ using the OAuth tokens stored in ~/.pi/agent/auth.json.
 
 import os
 import sys
+import re
 import json
 import time
 import base64
@@ -170,16 +171,28 @@ class AntigravityBridgeHandler(BaseHTTPRequestHandler):
         if system_instruction:
             gemini_req["systemInstruction"] = system_instruction
 
-        url = f"https://autopush-daily-cloudaicompanion.sandbox.googleapis.com/v1internal:generateContent?model={model}"
-        payload = json.dumps(gemini_req).encode("utf-8")
+        # Map generic models to active Antigravity internal models
+        internal_model = model
+        if internal_model in ("gemini-3.8-flash", "default", "gemini-3.7-flash"):
+            internal_model = "gemini-3.8-flash-low"
+
+        antigravity_req = {
+            "project": project_id,
+            "model": internal_model,
+            "request": gemini_req,
+            "requestType": "agent",
+            "userAgent": "antigravity",
+            "requestId": f"graphify-{int(time.time()*1000)}",
+        }
+
+        url = "https://daily-cloudcode-pa.googleapis.com/v1internal:generateContent"
+        payload = json.dumps(antigravity_req).encode("utf-8")
 
         headers = {
             "Authorization": f"Bearer {token}",
             "Content-Type": "application/json",
-            "User-Agent": "antigravity-bridge/1.0",
+            "User-Agent": "antigravity/cli/1.1.23 (aidev_client; os_type=linux; arch=amd64; cl=974125021; auth_method=consumer)",
         }
-        if project_id and project_id != "default":
-            headers["X-Goog-User-Project"] = project_id
 
         google_req = urllib.request.Request(url, data=payload, headers=headers)
         try:
@@ -199,13 +212,14 @@ class AntigravityBridgeHandler(BaseHTTPRequestHandler):
             self.wfile.write(json.dumps({"error": str(e)}).encode("utf-8"))
             return
 
-        candidates = resp_json.get("candidates", [])
+        resp_data = resp_json.get("response", resp_json)
+        candidates = resp_data.get("candidates", [])
         text_content = ""
         if candidates:
             parts = candidates[0].get("content", {}).get("parts", [])
-            text_content = "".join([p.get("text", "") for p in parts])
+            text_content = "".join([p.get("text", "") for p in parts if "text" in p])
 
-        usage = resp_json.get("usageMetadata", {})
+        usage = resp_data.get("usageMetadata", {})
         prompt_tokens = usage.get("promptTokenCount", 0)
         completion_tokens = usage.get("candidatesTokenCount", 0)
 

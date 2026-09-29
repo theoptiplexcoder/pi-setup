@@ -13,6 +13,7 @@ node_modules/
 # Secrets
 .pi/agent/auth.json
 .pi/agent/trust.json
+.pi/agent/antigravity-accounts.json
 .env
 .env.*
 
