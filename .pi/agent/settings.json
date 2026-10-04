@@ -1,9 +1,8 @@
 {
-  "lastChangelogVersion": "0.87.1",
+  "lastChangelogVersion": "0.99.1",
   "theme": "dark",
   "packages": [
     "npm:pi-antigravity",
-    "npm:opencode-pi",
     "npm:pi-web-access",
     "npm:@davecodes/pi-dcp",
     "npm:pi-subagents",
@@ -15,13 +14,13 @@
   "defaultThinkingLevel": "low",
   "subagents": {
     "defaultThinking": "low",
-    "maxThinking": "low",
+    "maxThinking": "high",
     "agentOverrides": {
       "oracle": {
         "thinking": "low"
       },
       "researcher": {
-        "thinking": "low"
+        "thinking": "high"
       },
       "reviewer": {
         "thinking": "low"

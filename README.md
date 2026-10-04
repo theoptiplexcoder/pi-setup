@@ -27,7 +27,6 @@ Instead of relying on unversioned global agent configurations or ad-hoc environm
 
 - **Pre-Configured Extension Packages:**
   - **`pi-antigravity`**: Authentication and model access via Google Antigravity OAuth (Gemini models, image generation).
-  - **`opencode-pi`**: OpenCode provider integrations.
   - **`pi-web-access`**: Multi-provider search and real-time content fetching tools (`web_search`, `source_check`, `fetch_content`, `get_search_content`).
   - **`@davecodes/pi-dcp`**: Dynamic Context Pruning tools to compress long conversation history and keep sessions performant.
   - **`pi-subagents`**: Comprehensive subagent orchestration framework supporting isolated worktrees, parallel task fanout, chains, and supervisor review.

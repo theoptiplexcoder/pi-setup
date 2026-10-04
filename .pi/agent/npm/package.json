@@ -4,10 +4,9 @@
   "dependencies": {
     "@davecodes/pi-dcp": "^0.2.0",
     "@gaodes/pi-graphify": "^0.2.2",
-    "opencode-pi": "^1.4.0",
-    "pi-antigravity": "^0.8.1",
+    "pi-antigravity": "^0.9.0",
     "pi-memory": "^0.4.2",
-    "pi-subagents": "^0.73.1",
-    "pi-web-access": "^0.33.0"
+    "pi-subagents": "^0.74.0",
+    "pi-web-access": "^0.34.0"
   }
 }
