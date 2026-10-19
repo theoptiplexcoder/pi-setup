@@ -1,0 +1,8 @@
+{
+  "name": "pi-extensions",
+  "private": true,
+  "dependencies": {
+    "pi-custom-system-prompt": "^0.1.1",
+    "pi-roles": "^0.2.3"
+  }
+}
