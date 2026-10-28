@@ -11,9 +11,23 @@ import re
 import json
 import time
 import base64
+import socket
 import urllib.request
 import urllib.parse
+import socketserver
 from http.server import HTTPServer, BaseHTTPRequestHandler
+
+# Prefer IPv4 over IPv6: Google domains return unreachable IPv6 addresses on some networks,
+# causing 30s-120s connection timeouts when Python falls back through them.
+orig_getaddrinfo = socket.getaddrinfo
+def ipv4_first_getaddrinfo(host, port, family=0, type=0, proto=0, flags=0):
+    return orig_getaddrinfo(host, port, socket.AF_INET, type, proto, flags)
+socket.getaddrinfo = ipv4_first_getaddrinfo
+
+
+class ThreadedHTTPServer(socketserver.ThreadingMixIn, HTTPServer):
+    daemon_threads = True
+
 
 PORT = 51155
 AUTH_PATH = os.path.expanduser("~/.pi/agent/auth.json")
@@ -37,6 +51,7 @@ def get_oauth_client():
     repo_root = os.path.dirname(script_dir)
     candidates = [
         os.path.expanduser("~/.pi/agent/npm/node_modules/pi-antigravity/src/auth/oauth.ts"),
+        os.path.expanduser("~/git/pi-setup/.pi/agent/npm/node_modules/pi-antigravity/src/auth/oauth.ts"),
         os.path.join(repo_root, ".pi/agent/npm/node_modules/pi-antigravity/src/auth/oauth.ts"),
     ]
     for path in candidates:
@@ -255,7 +270,7 @@ class AntigravityBridgeHandler(BaseHTTPRequestHandler):
 
 def run():
     server_address = ("127.0.0.1", PORT)
-    httpd = HTTPServer(server_address, AntigravityBridgeHandler)
+    httpd = ThreadedHTTPServer(server_address, AntigravityBridgeHandler)
     sys.stderr.write(f"Antigravity OpenAI Bridge listening on http://127.0.0.1:{PORT}\n")
     try:
         httpd.serve_forever()
