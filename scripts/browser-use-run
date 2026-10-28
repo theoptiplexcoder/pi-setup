@@ -63,4 +63,8 @@ if [[ $# -eq 0 ]]; then
     exit 0
 fi
 
-python3 "$@"
+if command -v uv >/dev/null 2>&1; then
+    exec uv run --with browser-use --with playwright python3 "$@"
+else
+    exec python3 "$@"
+fi

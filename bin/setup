@@ -87,6 +87,14 @@ if [[ "$enable_antigravity_bridge" =~ ^[Yy]$ ]]; then
     echo "✓ browser-use-run installed"
   fi
 
+  # Install browser-use CLI and Playwright dependencies via uv if available
+  if command -v uv >/dev/null 2>&1; then
+    echo "Installing browser-use tools and playwright chromium via uv..."
+    uv tool install --with playwright "browser-use" --force >/dev/null 2>&1 || true
+    uv run --with browser-use --with playwright playwright install chromium >/dev/null 2>&1 || true
+    echo "✓ browser-use CLI & Playwright Chromium installed"
+  fi
+
   # Configure ~/.graphify/providers.json
   PROVIDERS_FILE="$HOME/.graphify/providers.json"
   if [[ ! -f "$PROVIDERS_FILE" ]] || ! grep -q '"antigravity"' "$PROVIDERS_FILE" 2>/dev/null; then
