@@ -1,3 +1,6 @@
 [submodule "extensions/git-watcher"]
 	path = extensions/git-watcher
 	url = https://github.com/theoptiplexcoder/pi-git-pusher.git
+[submodule "extensions/claudelike-pisandbox"]
+	path = extensions/claudelike-pisandbox
+	url = https://github.com/theoptiplexcoder/pi-sandbox.git
