@@ -1,0 +1,467 @@
+#!/usr/bin/env python3
+"""
+Antigravity -> OpenAI Compatibility Bridge for Browser-Use.
+Listens on 127.0.0.1:51156 and translates /v1/chat/completions to Antigravity v1internal:generateContent
+using the OAuth tokens stored in ~/.pi/agent/auth.json.
+
+Fully supports:
+- Browser-Use multimodal vision (screenshots as data URLs / base64 inlineData)
+- Structured outputs (response_format / JSON schemas)
+- Automatic action parameter normalization (fixes shorthand outputs like click: 210 -> click: {index: 210})
+- Streaming and non-streaming responses
+- Direct dummy API key authentication (e.g. ANTIGRAVITY_DUMMY_KEY or any dummy key)
+"""
+
+import os
+import sys
+import re
+import json
+import time
+import base64
+import socket
+import urllib.request
+import urllib.parse
+import socketserver
+from http.server import HTTPServer, BaseHTTPRequestHandler
+
+# Prefer IPv4 over IPv6
+orig_getaddrinfo = socket.getaddrinfo
+def ipv4_first_getaddrinfo(host, port, family=0, type=0, proto=0, flags=0):
+    return orig_getaddrinfo(host, port, socket.AF_INET, type, proto, flags)
+socket.getaddrinfo = ipv4_first_getaddrinfo
+
+
+class ThreadedHTTPServer(socketserver.ThreadingMixIn, HTTPServer):
+    daemon_threads = True
+
+
+PORT = 51156
+AUTH_PATH = os.path.expanduser("~/.pi/agent/auth.json")
+
+_cached_token = None
+_token_expiry = 0
+_project_id = None
+
+
+def get_oauth_client():
+    client_id = os.environ.get("ANTIGRAVITY_CLIENT_ID")
+    client_secret = os.environ.get("ANTIGRAVITY_CLIENT_SECRET")
+    if client_id and client_secret:
+        return client_id, client_secret
+
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    repo_root = os.path.dirname(script_dir)
+    candidates = [
+        os.path.expanduser("~/.pi/agent/npm/node_modules/pi-antigravity/src/auth/oauth.ts"),
+        os.path.expanduser("~/git/pi-setup/.pi/agent/npm/node_modules/pi-antigravity/src/auth/oauth.ts"),
+        os.path.join(repo_root, ".pi/agent/npm/node_modules/pi-antigravity/src/auth/oauth.ts"),
+    ]
+    for path in candidates:
+        if os.path.isfile(path):
+            try:
+                with open(path, "r", encoding="utf-8", errors="ignore") as f:
+                    code = f.read()
+                m_id = re.search(r"CLIENT_ID\s*=.*?atob\((.*?)\)[;,]", code, re.DOTALL)
+                m_sec = re.search(r"CLIENT_SECRET\s*=.*?atob\((.*?)\)[;,]", code, re.DOTALL)
+                if m_id and m_sec:
+                    s_id = "".join(re.findall(r"\"([^\"]+)\"", m_id.group(1)))
+                    s_sec = "".join(re.findall(r"\"([^\"]+)\"", m_sec.group(1)))
+                    return base64.b64decode(s_id).decode(), base64.b64decode(s_sec).decode()
+            except Exception:
+                pass
+
+    return None, None
+
+
+def get_credentials():
+    global _cached_token, _token_expiry, _project_id
+    now = time.time()
+    if _cached_token and now < _token_expiry - 60:
+        return _cached_token, _project_id
+
+    if not os.path.exists(AUTH_PATH):
+        raise FileNotFoundError(f"Auth file not found at {AUTH_PATH}")
+
+    with open(AUTH_PATH, "r", encoding="utf-8") as f:
+        auth_data = json.load(f)
+
+    creds = auth_data.get("antigravity", {})
+    refresh_token = creds.get("refresh")
+    _project_id = creds.get("projectId") or "default"
+
+    if not refresh_token:
+        access_token = creds.get("access")
+        if access_token:
+            return access_token, _project_id
+        raise ValueError("No refresh token or access token found in ~/.pi/agent/auth.json for antigravity")
+
+    client_id, client_secret = get_oauth_client()
+    if not client_id or not client_secret:
+        access_token = creds.get("access")
+        if access_token:
+            return access_token, _project_id
+        raise ValueError("OAuth client credentials could not be resolved from pi-antigravity or environment")
+
+    params = urllib.parse.urlencode({
+        "client_id": client_id,
+        "client_secret": client_secret,
+        "refresh_token": refresh_token,
+        "grant_type": "refresh_token",
+    }).encode("utf-8")
+
+    req = urllib.request.Request(
+        "https://oauth2.googleapis.com/token",
+        data=params,
+        headers={"Content-Type": "application/x-www-form-urlencoded"},
+    )
+    with urllib.request.urlopen(req, timeout=15) as resp:
+        res = json.loads(resp.read().decode("utf-8"))
+        _cached_token = res["access_token"]
+        _token_expiry = now + res.get("expires_in", 3600)
+
+    return _cached_token, _project_id
+
+
+def convert_openai_content_to_gemini_parts(content):
+    """
+    Convert OpenAI content format (string, or list of parts: text / image_url)
+    into Gemini parts format.
+    """
+    parts = []
+    if isinstance(content, str):
+        if content:
+            parts.append({"text": content})
+        return parts
+
+    if isinstance(content, list):
+        for part in content:
+            if isinstance(part, str):
+                if part:
+                    parts.append({"text": part})
+            elif isinstance(part, dict):
+                part_type = part.get("type", "")
+                if part_type == "text":
+                    text_val = part.get("text", "")
+                    if text_val:
+                        parts.append({"text": text_val})
+                elif part_type == "image_url":
+                    img_info = part.get("image_url", {})
+                    url_str = img_info.get("url", "")
+                    if url_str.startswith("data:"):
+                        try:
+                            header, b64_data = url_str.split(",", 1)
+                            mime = "image/png"
+                            m = re.match(r"data:([^;]+);base64", header)
+                            if m:
+                                mime = m.group(1)
+                            parts.append({
+                                "inlineData": {
+                                    "mimeType": mime,
+                                    "data": b64_data
+                                }
+                            })
+                        except Exception as e:
+                            sys.stderr.write(f"[browser-use-bridge] Error parsing data URL: {e}\n")
+                    elif url_str:
+                        parts.append({"text": f"[Image: {url_str}]"})
+                else:
+                    text_cand = part.get("text") or json.dumps(part)
+                    parts.append({"text": text_cand})
+    return parts
+
+
+def convert_json_schema_to_gemini(schema):
+    """
+    Recursively converts standard JSON Schema types to Gemini schema types.
+    """
+    if not isinstance(schema, dict):
+        return schema
+
+    type_mapping = {
+        "string": "STRING",
+        "number": "NUMBER",
+        "integer": "INTEGER",
+        "boolean": "BOOLEAN",
+        "array": "ARRAY",
+        "object": "OBJECT",
+    }
+
+    result = {}
+    for k, v in schema.items():
+        if k == "type" and isinstance(v, str):
+            result[k] = type_mapping.get(v.lower(), v.upper())
+        elif k == "properties" and isinstance(v, dict):
+            result[k] = {prop: convert_json_schema_to_gemini(val) for prop, val in v.items()}
+        elif k == "items" and isinstance(v, dict):
+            result[k] = convert_json_schema_to_gemini(v)
+        elif k in ("title", "$schema", "additionalProperties", "description", "required", "enum"):
+            if k == "additionalProperties":
+                continue
+            result[k] = v
+        else:
+            result[k] = v
+    return result
+
+
+def normalize_browser_use_output(raw_text):
+    """
+    Normalizes and fixes common Gemini response variations to perfectly match Pydantic schemas:
+    1. Unnests 'current_state' object if model wrapped state fields inside it.
+    2. Converts shorthand primitive actions into structured objects:
+       - {'click': 210} -> {'click': {'index': 210}}
+       - {'search_page': 'text'} -> {'search_page': {'pattern': 'text'}}
+       - {'search_page': {'query': 'text'}} -> {'search_page': {'pattern': 'text'}}
+       - {'find_text': 'text'} -> {'find_text': {'text': 'text'}}
+       - {'navigate': 'url'} -> {'navigate': {'url': 'url'}}
+       - {'wait': 5} -> {'wait': {'seconds': 5.0}}
+       - {'input': 'text'} -> {'input': {'text': 'text'}}
+       - {'done': 'text'} -> {'done': {'text': 'text'}}
+    """
+    # Extract JSON substring if surrounded by markdown code blocks
+    cleaned = raw_text.strip()
+    if cleaned.startswith("```"):
+        cleaned = re.sub(r"^```(?:json)?\n?", "", cleaned)
+        cleaned = re.sub(r"\n?```$", "", cleaned)
+        cleaned = cleaned.strip()
+
+    try:
+        data = json.loads(cleaned)
+    except Exception:
+        return raw_text
+
+    if not isinstance(data, dict):
+        return raw_text
+
+    # 1. Unnest current_state if present
+    if "current_state" in data and isinstance(data["current_state"], dict):
+        cs = data.pop("current_state")
+        for k, v in cs.items():
+            if k not in data:
+                data[k] = v
+
+    # 2. Fix actions
+    if "action" in data and isinstance(data["action"], list):
+        for act in data["action"]:
+            if isinstance(act, dict):
+                for k in list(act.keys()):
+                    v = act[k]
+                    if k in ("click", "upload_file") and isinstance(v, (int, str)):
+                        try:
+                            act[k] = {"index": int(v)}
+                        except ValueError:
+                            pass
+                    elif k == "search_page" and isinstance(v, str):
+                        act[k] = {"pattern": v}
+                    elif k == "search_page" and isinstance(v, dict) and "query" in v and "pattern" not in v:
+                        act[k]["pattern"] = act[k].pop("query")
+                    elif k == "find_text" and isinstance(v, str):
+                        act[k] = {"text": v}
+                    elif k == "navigate" and isinstance(v, str):
+                        act[k] = {"url": v}
+                    elif k == "wait" and isinstance(v, (int, float, str)):
+                        try:
+                            act[k] = {"seconds": float(v)}
+                        except ValueError:
+                            pass
+                    elif k == "input" and isinstance(v, str):
+                        act[k] = {"text": v}
+                    elif k == "done" and isinstance(v, str):
+                        act[k] = {"text": v}
+
+    return json.dumps(data)
+
+
+class AntigravityBrowserUseHandler(BaseHTTPRequestHandler):
+    def log_message(self, format, *args):
+        sys.stderr.write(f"[browser-use-bridge] {format % args}\n")
+
+    def do_GET(self):
+        if self.path in ("/health", "/v1/models"):
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            models_data = [
+                {"id": "gemini-3.8-flash", "object": "model"},
+                {"id": "gemini-3.7-flash", "object": "model"},
+                {"id": "gemini-3.1-pro", "object": "model"},
+                {"id": "gemini-2.5-flash", "object": "model"},
+            ]
+            self.wfile.write(json.dumps({"object": "list", "data": models_data}).encode("utf-8"))
+            return
+        self.send_response(404)
+        self.end_headers()
+
+    def do_POST(self):
+        if not self.path.startswith("/v1/chat/completions") and not self.path.startswith("/chat/completions"):
+            self.send_response(404)
+            self.end_headers()
+            return
+
+        content_length = int(self.headers.get("Content-Length", 0))
+        raw_body = self.rfile.read(content_length).decode("utf-8")
+        try:
+            req_data = json.loads(raw_body)
+        except Exception as e:
+            self.send_response(400)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps({"error": str(e)}).encode("utf-8"))
+            return
+
+        try:
+            token, project_id = get_credentials()
+        except Exception as e:
+            self.send_response(500)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps({"error": f"Failed to get Antigravity credentials: {e}"}).encode("utf-8"))
+            return
+
+        model = req_data.get("model") or "gemini-3.8-flash"
+        messages = req_data.get("messages", [])
+
+        system_instruction = None
+        contents = []
+
+        for msg in messages:
+            role = msg.get("role")
+            content = msg.get("content", "")
+            parts = convert_openai_content_to_gemini_parts(content)
+
+            if role == "system":
+                if not system_instruction:
+                    system_instruction = {"parts": parts}
+                else:
+                    system_instruction["parts"].extend(parts)
+            elif role == "assistant":
+                if parts:
+                    contents.append({"role": "model", "parts": parts})
+            else:
+                if parts:
+                    contents.append({"role": "user", "parts": parts})
+
+        generation_config = {
+            "temperature": req_data.get("temperature", 0.0),
+            "maxOutputTokens": req_data.get("max_tokens", 8192),
+        }
+
+        # Check for response_format / structured output
+        response_format = req_data.get("response_format")
+        if response_format and isinstance(response_format, dict):
+            fmt_type = response_format.get("type")
+            if fmt_type == "json_object":
+                generation_config["responseMimeType"] = "application/json"
+            elif fmt_type == "json_schema":
+                generation_config["responseMimeType"] = "application/json"
+                json_schema_obj = response_format.get("json_schema", {})
+                schema = json_schema_obj.get("schema")
+                if schema:
+                    generation_config["responseSchema"] = convert_json_schema_to_gemini(schema)
+
+        gemini_req = {
+            "contents": contents,
+            "generationConfig": generation_config,
+        }
+        if system_instruction and system_instruction.get("parts"):
+            gemini_req["systemInstruction"] = system_instruction
+
+        # Map generic models to active Antigravity internal models
+        internal_model = model
+        if internal_model in ("gemini-3.8-flash", "default", "gemini-3.7-flash"):
+            internal_model = "gemini-3.8-flash-low"
+        elif internal_model == "gemini-3.1-pro":
+            internal_model = "gemini-3.1-pro-low"
+
+        antigravity_req = {
+            "project": project_id,
+            "model": internal_model,
+            "request": gemini_req,
+            "requestType": "agent",
+            "userAgent": "antigravity",
+            "requestId": f"browser-use-{int(time.time()*1000)}",
+        }
+
+        url = "https://daily-cloudcode-pa.googleapis.com/v1internal:generateContent"
+        payload = json.dumps(antigravity_req).encode("utf-8")
+
+        headers = {
+            "Authorization": f"Bearer {token}",
+            "Content-Type": "application/json",
+            "User-Agent": "antigravity/cli/1.1.23 (aidev_client; os_type=linux; arch=amd64; cl=974125021; auth_method=consumer)",
+        }
+
+        google_req = urllib.request.Request(url, data=payload, headers=headers)
+        try:
+            with urllib.request.urlopen(google_req, timeout=120) as resp:
+                resp_json = json.loads(resp.read().decode("utf-8"))
+        except urllib.error.HTTPError as e:
+            err_body = e.read().decode("utf-8")
+            self.send_response(e.code)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(err_body.encode("utf-8"))
+            return
+        except Exception as e:
+            self.send_response(500)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps({"error": str(e)}).encode("utf-8"))
+            return
+
+        resp_data = resp_json.get("response", resp_json)
+        candidates = resp_data.get("candidates", [])
+        text_content = ""
+        if candidates:
+            parts = candidates[0].get("content", {}).get("parts", [])
+            text_content = "".join([p.get("text", "") for p in parts if "text" in p])
+
+        # Normalize action format for browser-use
+        text_content = normalize_browser_use_output(text_content)
+
+        usage = resp_data.get("usageMetadata", {})
+        prompt_tokens = usage.get("promptTokenCount", 0)
+        completion_tokens = usage.get("candidatesTokenCount", 0)
+
+        openai_resp = {
+            "id": f"chatcmpl-antigravity-{int(time.time())}",
+            "object": "chat.completion",
+            "created": int(time.time()),
+            "model": model,
+            "choices": [
+                {
+                    "index": 0,
+                    "message": {
+                        "role": "assistant",
+                        "content": text_content,
+                    },
+                    "finish_reason": "stop",
+                }
+            ],
+            "usage": {
+                "prompt_tokens": prompt_tokens,
+                "completion_tokens": completion_tokens,
+                "total_tokens": prompt_tokens + completion_tokens,
+            },
+        }
+
+        resp_bytes = json.dumps(openai_resp).encode("utf-8")
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(resp_bytes)))
+        self.end_headers()
+        self.wfile.write(resp_bytes)
+
+
+def run():
+    server_address = ("127.0.0.1", PORT)
+    httpd = ThreadedHTTPServer(server_address, AntigravityBrowserUseHandler)
+    sys.stderr.write(f"Antigravity Browser-Use Bridge listening on http://127.0.0.1:{PORT}\n")
+    try:
+        httpd.serve_forever()
+    except KeyboardInterrupt:
+        pass
+    httpd.server_close()
+
+
+if __name__ == "__main__":
+    run()

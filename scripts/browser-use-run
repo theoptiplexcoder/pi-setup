@@ -1,0 +1,66 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# -----------------------------------------------------------------------------
+# browser-use-run: Run browser-use automation tasks with local Antigravity bridge
+# -----------------------------------------------------------------------------
+
+BRIDGE_PORT=51156
+BRIDGE_URL="http://127.0.0.1:${BRIDGE_PORT}/health"
+BRIDGE_BIN="${HOME}/.local/bin/browser-use-antigravity-bridge"
+BRIDGE_PID=""
+STARTED_BRIDGE=0
+
+cleanup() {
+    if [[ "${STARTED_BRIDGE}" -eq 1 && -n "${BRIDGE_PID}" ]]; then
+        echo -e "\n[browser-use-run] Stopping background bridge (PID: ${BRIDGE_PID})..."
+        kill "${BRIDGE_PID}" 2>/dev/null || true
+        wait "${BRIDGE_PID}" 2>/dev/null || true
+    fi
+}
+trap cleanup EXIT INT TERM
+
+is_bridge_running() {
+    NO_PROXY=127.0.0.1,localhost no_proxy=127.0.0.1,localhost curl -s --connect-timeout 1 --max-time 2 "${BRIDGE_URL}" >/dev/null 2>&1
+}
+
+# 1. Verify or start the Antigravity bridge daemon
+if ! is_bridge_running; then
+    if [[ ! -x "${BRIDGE_BIN}" ]]; then
+        echo "[browser-use-run] Error: Bridge binary not found or not executable at ${BRIDGE_BIN}" >&2
+        exit 1
+    fi
+    echo "[browser-use-run] Starting local Antigravity Browser-Use bridge on port ${BRIDGE_PORT}..."
+    "${BRIDGE_BIN}" >/dev/null 2>&1 &
+    BRIDGE_PID=$!
+    STARTED_BRIDGE=1
+
+    WAIT_COUNT=0
+    until is_bridge_running || [[ "${WAIT_COUNT}" -ge 20 ]]; do
+        sleep 0.25
+        WAIT_COUNT=$((WAIT_COUNT + 1))
+    done
+
+    if ! is_bridge_running; then
+        echo "[browser-use-run] Error: Antigravity Browser-Use bridge failed to respond within 5 seconds." >&2
+        exit 1
+    fi
+    echo "[browser-use-run] Bridge is online (PID: ${BRIDGE_PID})."
+else
+    echo "[browser-use-run] Existing Antigravity bridge found active on port ${BRIDGE_PORT}."
+fi
+
+# 2. Enforce strict telemetry & cloud sync disabling
+export ANONYMIZED_TELEMETRY=false
+export BROWSER_USE_CLOUD_SYNC=false
+export BROWSER_USE_DISABLE_VERSION_CHECK=true
+export NO_PROXY="${NO_PROXY:-},127.0.0.1,localhost"
+export no_proxy="${no_proxy:-},127.0.0.1,localhost"
+
+# 3. Execute script/command
+if [[ $# -eq 0 ]]; then
+    echo "Usage: browser-use-run <python_script.py> [args...]"
+    exit 0
+fi
+
+python3 "$@"
