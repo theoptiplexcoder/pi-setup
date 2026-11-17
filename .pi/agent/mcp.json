@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "leetcode-questions": {
+      "command": "/home/ybl/git/pi-setup/mcp/leetcode-mcp/.venv/bin/python",
+      "args": [
+        "/home/ybl/git/pi-setup/mcp/leetcode-mcp/mcp_server.py"
+      ],
+      "env": {},
+      "exposure": "direct"
+    }
+  }
+}

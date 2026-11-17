@@ -1,17 +1,15 @@
 {
-  "lastChangelogVersion": "0.87.1",
-  "theme": "dark",
+  "lastChangelogVersion": "1.5.2",
+  "theme": "cole",
   "packages": [
-    "npm:pi-antigravity",
-    "npm:opencode-pi",
-    "npm:pi-web-access",
     "npm:@davecodes/pi-dcp",
     "npm:pi-subagents",
     "npm:pi-memory",
-    "npm:@gaodes/pi-graphify"
+    "npm:@gaodes/pi-graphify",
+    "npm:pi-search-multi"
   ],
-  "defaultProvider": "antigravity",
-  "defaultModel": "gemini-3.8-flash",
+  "defaultProvider": "openai",
+  "defaultModel": "gpt-6-luna",
   "defaultThinkingLevel": "low",
   "subagents": {
     "defaultThinking": "low",
@@ -31,5 +29,15 @@
       }
     }
   },
-  "hideThinkingBlock": true
+  "hideThinkingBlock": false,
+  "compaction": {
+    "enabled": false
+  },
+  "deviceId": "984d07a8-5d5d-4bcc-8f52-c2f86dcdcdd5",
+  "extensionChangelogVersions": {
+    "{\"source\":\"npm:@davecodes/pi-dcp\",\"scope\":\"user\"}": "0.2.0",
+    "{\"source\":\"npm:pi-subagents\",\"scope\":\"user\"}": "0.88.1",
+    "{\"source\":\"npm:pi-memory\",\"scope\":\"user\"}": "0.4.2",
+    "{\"source\":\"npm:@gaodes/pi-graphify\",\"scope\":\"user\"}": "0.2.2"
+  }
 }
