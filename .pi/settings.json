@@ -1,7 +1,0 @@
-{
-  "subagents": {
-    "worktreeProvider": "auto",
-    "worktreeBranchPrefix": "pi-subagents/",
-    "worktreeSetupHook": "./scripts/setup-worktree.mjs"
-  }
-}

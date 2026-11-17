@@ -26,9 +26,7 @@ Instead of relying on unversioned global agent configurations or ad-hoc environm
   - **`agents-local`**: Injects machine-local, gitignored context (`AGENTS.local.md`) into agent sessions automatically without polluting shared repository instructions.
 
 - **Pre-Configured Extension Packages:**
-  - **`pi-antigravity`**: Authentication and model access via Google Antigravity OAuth (Gemini models, image generation).
   - **`opencode-pi`**: OpenCode provider integrations.
-  - **`pi-web-access`**: Multi-provider search and real-time content fetching tools (`web_search`, `source_check`, `fetch_content`, `get_search_content`).
   - **`@davecodes/pi-dcp`**: Dynamic Context Pruning tools to compress long conversation history and keep sessions performant.
   - **`pi-subagents`**: Comprehensive subagent orchestration framework supporting isolated worktrees, parallel task fanout, chains, and supervisor review.
   - **`pi-memory`**: Persistent long-term, daily, and scratchpad memory search and retrieval.
@@ -89,6 +87,22 @@ Instead of relying on unversioned global agent configurations or ad-hoc environm
 > ```bash
 > curl -fsSL https://herdr.dev/install.sh | sh
 > ```
+
+### Sign in to Google Antigravity
+
+After setup, launch Pi with `./bin/pi`, then run:
+
+```text
+/login antigravity
+```
+
+Complete Google sign-in in the browser. Then select an available model, for example:
+
+```text
+/model antigravity/gemini-3.8-flash
+```
+
+The extension refreshes OAuth credentials automatically. Authentication is stored in the Pi agent directory (`.pi/agent/auth.json` and `.pi/agent/antigravity-accounts.json`); these files contain sensitive tokens and must never be committed or shared. Re-run `/login antigravity` if you need to sign in again. Use `/antigravity.models` to check models available to your account.
 
 ### Utility Scripts
 

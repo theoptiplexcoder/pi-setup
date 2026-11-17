@@ -63,7 +63,7 @@ done
 
 # Optional: Antigravity OpenAI Bridge setup for Graphify deep extraction
 echo ""
-read -r -p "Do you want to configure Antigravity OAuth bridges (graphify deep extraction & browser-use)? (y/N): " enable_antigravity_bridge || enable_antigravity_bridge="n"
+read -r -p "Do you want to configure the Antigravity OAuth bridge for graphify deep extraction? (y/N): " enable_antigravity_bridge || enable_antigravity_bridge="n"
 
 if [[ "$enable_antigravity_bridge" =~ ^[Yy]$ ]]; then
   echo "Setting up Antigravity OAuth bridges..."
@@ -74,26 +74,6 @@ if [[ "$enable_antigravity_bridge" =~ ^[Yy]$ ]]; then
   chmod +x "$HOME/.local/bin/antigravity-openai-bridge"
   cp "$REPO_ROOT/scripts/graphify-deep" "$HOME/.local/bin/graphify-deep"
   chmod +x "$HOME/.local/bin/graphify-deep"
-
-  # Install browser-use antigravity bridge and runner
-  if [ -f "$REPO_ROOT/scripts/browser-use-antigravity-bridge" ]; then
-    cp "$REPO_ROOT/scripts/browser-use-antigravity-bridge" "$HOME/.local/bin/browser-use-antigravity-bridge"
-    chmod +x "$HOME/.local/bin/browser-use-antigravity-bridge"
-    echo "✓ browser-use-antigravity-bridge installed"
-  fi
-  if [ -f "$REPO_ROOT/scripts/browser-use-run" ]; then
-    cp "$REPO_ROOT/scripts/browser-use-run" "$HOME/.local/bin/browser-use-run"
-    chmod +x "$HOME/.local/bin/browser-use-run"
-    echo "✓ browser-use-run installed"
-  fi
-
-  # Install browser-use CLI and Playwright dependencies via uv if available
-  if command -v uv >/dev/null 2>&1; then
-    echo "Installing browser-use tools and playwright chromium via uv..."
-    uv tool install --with playwright "browser-use" --force >/dev/null 2>&1 || true
-    uv run --with browser-use --with playwright playwright install chromium >/dev/null 2>&1 || true
-    echo "✓ browser-use CLI & Playwright Chromium installed"
-  fi
 
   # Configure ~/.graphify/providers.json
   PROVIDERS_FILE="$HOME/.graphify/providers.json"
@@ -120,8 +100,6 @@ EOF
   # Append instruction to AGENTS.local.md if it exists or create it from example
   AGENTS_LOCAL="$REPO_ROOT/AGENTS.local.md"
   GRAPHIFY_INSTRUCTION='- For `graphify --mode deep`: ensure `~/.local/bin/antigravity-openai-bridge` runs on port 51155 and run with `ANTIGRAVITY_DUMMY_KEY="dummy" graphify extract . --backend antigravity --mode deep` (uses Antigravity OAuth, no API key required).'
-  BROWSER_USE_INSTRUCTION='- For `browser-use`: ensure `~/.local/bin/browser-use-antigravity-bridge` runs on port 51156 (or use `browser-use-run script.py`). Point ChatOpenAI to http://127.0.0.1:51156/v1 with dummy API key (uses Antigravity OAuth, no API key required).'
-
   if [[ ! -f "$AGENTS_LOCAL" ]]; then
     cp "$REPO_ROOT/AGENTS.local.md.example" "$AGENTS_LOCAL"
     echo "✓ Created AGENTS.local.md from example"
@@ -131,15 +109,8 @@ EOF
     echo "$GRAPHIFY_INSTRUCTION" >> "$AGENTS_LOCAL"
     echo "✓ Added graphify Antigravity bridge instruction to AGENTS.local.md"
   fi
-  if ! grep -Fq "browser-use-antigravity-bridge" "$AGENTS_LOCAL"; then
-    echo "" >> "$AGENTS_LOCAL"
-    echo "$BROWSER_USE_INSTRUCTION" >> "$AGENTS_LOCAL"
-    echo "✓ Added browser-use Antigravity bridge instruction to AGENTS.local.md"
-  fi
-
   echo "✓ Antigravity bridge scripts installed in ~/.local/bin"
   echo "  - Graphify deep: use 'graphify-deep [dir]' or bridge on port 51155"
-  echo "  - Browser-use:   use 'browser-use-run script.py' or bridge on port 51156"
 fi
 
 echo ""
