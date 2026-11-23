@@ -7245,13 +7245,13 @@
           "text"
         ],
         "cost": {
-          "input": 0.63882,
-          "output": 1.27764,
-          "cacheRead": 0.05292,
+          "input": 0.637014,
+          "output": 1.274028,
+          "cacheRead": 0.053084,
           "cacheWrite": 0
         },
-        "contextWindow": 1048576,
-        "maxTokens": 393216,
+        "contextWindow": 1024000,
+        "maxTokens": 384000,
         "compat": {
           "supportsDeveloperRole": false,
           "thinkingFormat": "openrouter",
@@ -23052,7 +23052,7 @@
         }
       }
     ],
-    "checkedAt": 1795447237683
+    "checkedAt": 1795448136960
   },
   "huggingface": {
     "models": [
