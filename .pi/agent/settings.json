@@ -6,7 +6,11 @@
     "npm:pi-subagents",
     "npm:pi-memory",
     "npm:@gaodes/pi-graphify",
-    "npm:pi-search-multi"
+    "npm:pi-search-multi",
+    "git:github.com/theoptiplexcoder/my-gem-bridge"
+  ],
+  "extensions": [
+    "./extensions/my-gem-bridge/index.ts"
   ],
   "defaultProvider": "openai",
   "defaultModel": "gpt-6-luna",
@@ -36,7 +40,7 @@
   "deviceId": "984d07a8-5d5d-4bcc-8f52-c2f86dcdcdd5",
   "extensionChangelogVersions": {
     "{\"source\":\"npm:@davecodes/pi-dcp\",\"scope\":\"user\"}": "0.2.0",
-    "{\"source\":\"npm:pi-subagents\",\"scope\":\"user\"}": "0.88.1",
+    "{\"source\":\"npm:pi-subagents\",\"scope\":\"user\"}": "0.90.0",
     "{\"source\":\"npm:pi-memory\",\"scope\":\"user\"}": "0.4.2",
     "{\"source\":\"npm:@gaodes/pi-graphify\",\"scope\":\"user\"}": "0.2.2"
   }

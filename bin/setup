@@ -69,9 +69,30 @@ if [[ "$enable_antigravity_bridge" =~ ^[Yy]$ ]]; then
   echo "Setting up Antigravity OAuth bridges..."
   mkdir -p "$HOME/.local/bin" "$HOME/.graphify"
 
-  # Install bridge script and graphify-deep wrapper
-  cp "$REPO_ROOT/scripts/antigravity-openai-bridge" "$HOME/.local/bin/antigravity-openai-bridge"
-  chmod +x "$HOME/.local/bin/antigravity-openai-bridge"
+  # Install the bridge bundled with my-gem-bridge and the graphify-deep wrapper
+  BRIDGE_SOURCE="$REPO_ROOT/extensions/my-gem-bridge/antigravity-openai-bridge.py"
+  if [ ! -f "$BRIDGE_SOURCE" ]; then
+    echo "Error: Antigravity bridge not found at $BRIDGE_SOURCE"
+    exit 1
+  fi
+  case "$(uname -s 2>/dev/null || echo unknown)" in
+    MINGW*|MSYS*|CYGWIN*)
+      if [ -n "${LOCALAPPDATA:-}" ]; then
+        BRIDGE_BIN_DIR="$LOCALAPPDATA/Programs/Pi/bin"
+      else
+        BRIDGE_BIN_DIR="$HOME/.local/bin"
+      fi
+      ;;
+    *) BRIDGE_BIN_DIR="$HOME/.local/bin" ;;
+  esac
+  mkdir -p "$BRIDGE_BIN_DIR"
+  cp "$BRIDGE_SOURCE" "$BRIDGE_BIN_DIR/antigravity-openai-bridge.py"
+  chmod +x "$BRIDGE_BIN_DIR/antigravity-openai-bridge.py"
+  # Preserve the expected command name on POSIX systems.
+  case "$(uname -s 2>/dev/null || echo unknown)" in
+    MINGW*|MSYS*|CYGWIN*) ;;
+    *) ln -sfn "$BRIDGE_BIN_DIR/antigravity-openai-bridge.py" "$BRIDGE_BIN_DIR/antigravity-openai-bridge" ;;
+  esac
   cp "$REPO_ROOT/scripts/graphify-deep" "$HOME/.local/bin/graphify-deep"
   chmod +x "$HOME/.local/bin/graphify-deep"
 
@@ -97,18 +118,6 @@ if [[ "$enable_antigravity_bridge" =~ ^[Yy]$ ]]; then
 EOF
   fi
 
-  # Append instruction to AGENTS.local.md if it exists or create it from example
-  AGENTS_LOCAL="$REPO_ROOT/AGENTS.local.md"
-  GRAPHIFY_INSTRUCTION='- For `graphify --mode deep`: ensure `~/.local/bin/antigravity-openai-bridge` runs on port 51155 and run with `ANTIGRAVITY_DUMMY_KEY="dummy" graphify extract . --backend antigravity --mode deep` (uses Antigravity OAuth, no API key required).'
-  if [[ ! -f "$AGENTS_LOCAL" ]]; then
-    cp "$REPO_ROOT/AGENTS.local.md.example" "$AGENTS_LOCAL"
-    echo "✓ Created AGENTS.local.md from example"
-  fi
-  if ! grep -Fq "antigravity-openai-bridge" "$AGENTS_LOCAL"; then
-    echo "" >> "$AGENTS_LOCAL"
-    echo "$GRAPHIFY_INSTRUCTION" >> "$AGENTS_LOCAL"
-    echo "✓ Added graphify Antigravity bridge instruction to AGENTS.local.md"
-  fi
   echo "✓ Antigravity bridge scripts installed in ~/.local/bin"
   echo "  - Graphify deep: use 'graphify-deep [dir]' or bridge on port 51155"
 fi

@@ -4,8 +4,9 @@
   "dependencies": {
     "@davecodes/pi-dcp": "^0.2.0",
     "@gaodes/pi-graphify": "^0.2.2",
+    "pi-agy-acp": "^0.2.0",
     "pi-memory": "^0.4.2",
     "pi-search-multi": "^1.4.1",
-    "pi-subagents": "^0.88.1"
+    "pi-subagents": "^0.90.0"
   }
 }

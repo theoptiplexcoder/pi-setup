@@ -4,3 +4,9 @@
 [submodule "extensions/claudelike-pisandbox"]
 	path = extensions/claudelike-pisandbox
 	url = https://github.com/theoptiplexcoder/pi-sandbox.git
+[submodule "extensions/my-gem-bridge"]
+	path = extensions/my-gem-bridge
+	url = git@github.com:theoptiplexcoder/my-gem-bridge.git
+[submodule "mcp/leetcode-mcp"]
+	path = mcp/leetcode-mcp
+	url = https://github.com/theoptiplexcoder/leetcode-mcp.git

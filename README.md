@@ -71,12 +71,6 @@ Instead of relying on unversioned global agent configurations or ad-hoc environm
    - Install all required dependencies and extensions.
    - Prompt to optionally configure the Antigravity OAuth bridge for deep graph extraction.
 
-3. **Configure Local Instructions (Optional):**
-   Copy the example configuration to add machine-specific or personal instructions:
-   ```bash
-   cp AGENTS.local.md.example AGENTS.local.md
-   ```
-
 4. **Launch Pi:**
    Use the repository launcher:
    ```bash
